@@ -20,12 +20,11 @@ public class MissionListHandler {
     }
 
     int addRecord(String missionName, String budgetString, String priority) {
-
         try {
 
             FileWriter writer = new FileWriter(missionList, true);
             //writer.append(missionName + ";" + budgetString + ";" + priority);
-            writer.write(missionName + ";" + budgetString + ";" + priority + "\n");
+            writer.write(missionName + ";" + budgetString + ";" + priority + ";" + false +  "\n");
             writer.close();
             listMissions();
             return 0;
@@ -46,7 +45,7 @@ public class MissionListHandler {
             while ((line = br.readLine()) != null)   //returns a Boolean value
             {
                 String[] missionDetails = line.split(splitBy);    // use comma as separator
-                System.out.println("Details: [Name=" + missionDetails[0] + ", Cost=" + missionDetails[1] + ", Priority=" + missionDetails[2] + "]");
+                System.out.println("Details: [Name=" + missionDetails[0] + ", Cost=" + missionDetails[1] + ", Priority=" + missionDetails[2] + ", IsBlacklisted=" + missionDetails[3] + "]");
             }
         } catch (IOException e) {
             e.printStackTrace();
