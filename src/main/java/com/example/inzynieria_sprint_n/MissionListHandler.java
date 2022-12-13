@@ -27,9 +27,10 @@ public class MissionListHandler {
      int addRecord(String missionName, String budgetString, String priority){
 
         try {
-            FileWriter writer = new FileWriter(missionList);
-            writer.append(missionName + ";" + budgetString + ";" + priority);
-            //writer.write(missionName + ";" + budgetString + ";" + priority);
+
+            FileWriter writer = new FileWriter(missionList, true);
+            //writer.append(missionName + ";" + budgetString + ";" + priority);
+            writer.write(missionName + ";" + budgetString + ";" + priority + "\n");
             writer.close();
             return 0;
         }
