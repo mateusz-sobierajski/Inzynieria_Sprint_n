@@ -10,7 +10,7 @@ public class MissionListHandler {
 
     MissionListHandler() {
         try{
-            missionList = new File("com/example/inzynieria_sprint_n/proposed_mission_list.txt");
+            missionList = new File("proposed_mission_list.csv");
             if(missionList.createNewFile()){
                 System.out.println("Plik stworzony prawidłowo");
             }
@@ -19,6 +19,7 @@ public class MissionListHandler {
             }
         }
         catch(IOException e){
+            System.out.println("Blad tworzenia pliku!!!1!");
             e.printStackTrace();
         }
     }
@@ -27,12 +28,17 @@ public class MissionListHandler {
 
         try {
             FileWriter writer = new FileWriter(missionList);
-            writer.write(missionName + ";" + budgetString + ";" + priority);
+            writer.append(missionName + ";" + budgetString + ";" + priority);
+            //writer.write(missionName + ";" + budgetString + ";" + priority);
+            writer.close();
             return 0;
         }
         catch (IOException e){
             System.out.println("Blad inicjalizacji zapisu do pliku!");
             return -1;
         }
+    }
+    String getRecord(){
+        return("a");
     }
 }
