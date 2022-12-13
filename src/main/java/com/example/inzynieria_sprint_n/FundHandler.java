@@ -56,13 +56,13 @@ public class FundHandler
 
         BudgetManager budgetMgr = new BudgetManager();
         budgetMgr.setCurrentAgencyBudget(120000000);
-
+        /*
         System.out.println(floatInput/budgetMgr.getCurrentBudget());
         System.out.println((budgetMgr.getCurrentBudget()-floatInput)/(budgetMgr.getCurrentBudget()));
-
+        */
         if(floatInput >= budgetMgr.getCurrentBudget()){
             outputText.setText("Budżet misji przerasta budżet agencji!");
-            System.out.println("Budżet misji przerasta budżet agencji!");
+            //System.out.println("Budżet misji przerasta budżet agencji!");
         }
 
         ObservableList<PieChart.Data> pieChartData =
@@ -70,7 +70,7 @@ public class FundHandler
                         new PieChart.Data("Dodane Fudusze", (floatInput/budgetMgr.getCurrentBudget())),
                         new PieChart.Data("Pozostałe fundusze agencji", ((budgetMgr.getCurrentBudget()-floatInput)/(budgetMgr.getCurrentBudget()))));
         final PieChart chart = new PieChart(pieChartData);
-        chart.setTitle("Imported Fruits");
+        chart.setTitle("Podział funduszy");
         pieChart.setData(pieChartData);
         pieChart.setTitle("Udział funduszy misji w budżecie agencji");
         //pieChart = chart;
