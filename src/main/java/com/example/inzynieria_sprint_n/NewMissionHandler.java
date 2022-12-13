@@ -18,6 +18,8 @@ public class NewMissionHandler {
     private Button missionAcceptBtn;
     @FXML
     private ListView missionList;
+
+    //TODO sprawdzić czy te tagi @FXML są potrzebne
     @FXML
     private String missionName;
     @FXML
@@ -30,6 +32,8 @@ public class NewMissionHandler {
     public NewMissionHandler(){
         listHandler = new MissionListHandler();
     }
+
+    //TODO kontroler dla fxmla nadzorujący resztę klas
     @FXML
     public void addMissionClick(){
         String missionName = missionNameInput.getText();
@@ -37,11 +41,9 @@ public class NewMissionHandler {
         long budgetLong = Long.parseLong(budgetString);
         listHandler.addRecord(missionName, budgetString, "UNP");//UNP - bez nadanego priorytetu
     }
-
+    /*
     @FXML
     public void printOutput(){
-
-
-
     }
+    */
 }

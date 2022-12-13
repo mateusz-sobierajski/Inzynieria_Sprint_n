@@ -52,5 +52,8 @@ public class MissionListHandler {
             e.printStackTrace();
         }
     }
+
+    //TODO ta klasa będzie tylko obsługiwała plik ze wszystkimi klasmi
+    // do wyboru misji przez algotytm będzie nowa
 }
 
