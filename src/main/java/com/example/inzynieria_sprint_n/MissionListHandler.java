@@ -1,30 +1,25 @@
 package com.example.inzynieria_sprint_n;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.FileWriter;
-import java.io.FileReader;
+import java.io.*;
 
 public class MissionListHandler {
     private File missionList;
 
     MissionListHandler() {
-        try{
+        try {
             missionList = new File("proposed_mission_list.csv");
-            if(missionList.createNewFile()){
+            if (missionList.createNewFile()) {
                 System.out.println("Plik stworzony prawidłowo");
-            }
-            else{
+            } else {
                 System.out.println("Plik już istnieje!");
             }
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             System.out.println("Blad tworzenia pliku!!!1!");
             e.printStackTrace();
         }
     }
 
-     int addRecord(String missionName, String budgetString, String priority){
+    int addRecord(String missionName, String budgetString, String priority) {
 
         try {
 
@@ -32,14 +27,30 @@ public class MissionListHandler {
             //writer.append(missionName + ";" + budgetString + ";" + priority);
             writer.write(missionName + ";" + budgetString + ";" + priority + "\n");
             writer.close();
+            listMissions();
             return 0;
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Blad inicjalizacji zapisu do pliku!");
             return -1;
         }
     }
-    String getRecord(){
-        return("a");
+    String getRecord() {
+        return ("a");
+    }
+    void listMissions() {
+        String line = "";
+        String splitBy = ";";
+        try {
+
+            BufferedReader br = new BufferedReader(new FileReader(missionList));
+            while ((line = br.readLine()) != null)   //returns a Boolean value
+            {
+                String[] missionDetails = line.split(splitBy);    // use comma as separator
+                System.out.println("Details: [Name=" + missionDetails[0] + ", Cost=" + missionDetails[1] + ", Priority=" + missionDetails[2] + "]");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
+
