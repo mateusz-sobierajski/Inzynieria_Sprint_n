@@ -5,6 +5,7 @@ import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.Map;
 
@@ -12,8 +13,8 @@ public class MissionPicker {
     File missionInputs;
     BufferedReader reader;
 
-    //Map <String, Integer> budgets;
-    ArrayList <String> budgets = new ArrayList<>();
+    Map <String, Integer> budgets = new HashMap<>();
+    //ArrayList <Integer> budgets = new ArrayList<>();
 
     MissionPicker(File missionInputs){
         this.missionInputs = missionInputs;
@@ -23,8 +24,6 @@ public class MissionPicker {
         catch(Exception e){
             System.out.println("Blad otwarcia pliku!");
         }
-
-        //readAndPick();
     }
     void readAndPick(){
         try {
@@ -34,12 +33,9 @@ public class MissionPicker {
             int i = 0;
             while(line!=null){
                 String[] tokens = line.split(";");
-                //for(String s:tokens) {System.out.println(s);}
-                System.out.println("\nWHILE!\n");
-                //System.out.println(tokens[1] + " 99999999");
-                //budgets.put(tokens[0], Integer.parseInt(tokens[1]));
-                budgets.add(tokens[1]);// = tokens[1];
-                System.out.println(budgets.get(i));
+                //budgets.add(Integer.parseInt(tokens[1]));
+                //System.out.println(tokens[0] + "\n" + (Integer.parseInt(tokens[1])+1) +"\n");
+                budgets.put(tokens[0], Integer.parseInt(tokens[1]));
                 line = reader.readLine();
                 ++i;
             }
@@ -48,16 +44,24 @@ public class MissionPicker {
         catch(Exception e){
             System.out.println("Blad czytania pliku!");
         }
-/*
+
         for (Map.Entry<String, Integer> entry : budgets.entrySet()) {
-            System.out.println(entry.getKey() + ":" + entry.getValue().toString());
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+        }
+/*
+        for(Integer i:budgets) {
+            System.out.println(i);
         }
 */
-        //System.out.println(budgets[0]);
-        //for(String s:budgets) {
-        //    System.out.println(s);
-        //}
     }
     //TODO daty dodania
     //TODO testy
+    //TODO dokumentacja UMLe wymagania(diagram przypadków uzycia)
+    //TODO diagram klas
+    //TODO diagram komponentów jak są pakiety
+    //TODO opis dziedziny
+    //TODO user stories
+    //TODO diagramy klas
+    //TODO miejsca ze wzorcami projektowymi
+    //TODO wzorce
 }
