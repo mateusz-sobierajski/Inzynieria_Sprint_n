@@ -1,13 +1,19 @@
 package com.example.inzynieria_sprint_n;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Vector;
 
 public class MissionListHandler {
     private File missionList;
+    private ArrayList<Class> MissionList;
+    private MissionPicker missionPicker;
 
     MissionListHandler() {
         try {
             missionList = new File("proposed_mission_list.csv");
+            missionPicker = new MissionPicker(missionList);
+            missionPicker.readAndPick();
             if (missionList.createNewFile()) {
                 System.out.println("Plik stworzony prawidłowo");
             } else {
@@ -44,6 +50,7 @@ public class MissionListHandler {
             BufferedReader br = new BufferedReader(new FileReader(missionList));
             while ((line = br.readLine()) != null)   //returns a Boolean value
             {
+
                 String[] missionDetails = line.split(splitBy);    // use comma as separator
                 System.out.println("Details: [Name=" + missionDetails[0] + ", Cost=" + missionDetails[1] + ", Priority=" + missionDetails[2] + ", IsBlacklisted=" + missionDetails[3] + "]");
             }
