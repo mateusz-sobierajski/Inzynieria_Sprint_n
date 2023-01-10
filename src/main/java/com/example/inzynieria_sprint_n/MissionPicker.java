@@ -16,6 +16,8 @@ public class MissionPicker {
     Map <String, Integer> budgets = new HashMap<>();
     //ArrayList <Integer> budgets = new ArrayList<>();
 
+    BudgetManager budgetManager;
+
     MissionPicker(File missionInputs){
         this.missionInputs = missionInputs;
         try {
@@ -24,6 +26,9 @@ public class MissionPicker {
         catch(Exception e){
             System.out.println("Blad otwarcia pliku!");
         }
+    }
+    void getBudget(BudgetManager budgetManager){
+        this.budgetManager = budgetManager;
     }
     void readAndPick(){
         try {
