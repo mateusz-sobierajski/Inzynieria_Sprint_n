@@ -29,7 +29,7 @@ public class BudgetManager {
 
         try {
             FileWriter writer = new FileWriter(budgetFile);
-            writer.write(newBudget);
+            writer.write(Long.toString(newBudget));
         }
         catch (Exception e){
             e.printStackTrace();

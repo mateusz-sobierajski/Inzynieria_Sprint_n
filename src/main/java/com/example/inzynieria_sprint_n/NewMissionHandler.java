@@ -41,14 +41,15 @@ public class NewMissionHandler {
     //TODO kontroler dla fxmla nadzorujący resztę klas
     @FXML
     public void addMissionClick() {
-        /*
+
         String missionName = missionNameInput.getText();
         String budgetString = budgetInput.getText();
         long budgetLong = Long.parseLong(budgetString);
         Mission mission = new Mission(missionName, budgetString, "UNP", false);
+        System.out.println(mission);
         missionList.add(mission);
         listHandler.addRecord(mission);//UNP - bez nadanego priorytetu
-        */
+
 
     }
     /*
