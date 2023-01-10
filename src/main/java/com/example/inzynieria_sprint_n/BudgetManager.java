@@ -1,8 +1,7 @@
 package com.example.inzynieria_sprint_n;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.CharBuffer;
 
 public class BudgetManager {
     //TODO zdecydować czy zrobić osobną klasę do algorytmu czy wrzucać tu
@@ -37,6 +36,21 @@ public class BudgetManager {
     }
 
     BudgetManager(){
-        currentAgencyBudget = 0;
+        try {
+
+            BufferedReader reader = new BufferedReader(new FileReader(budgetFile));
+            String currentLine = reader.readLine();
+            reader.close();
+            System.out.printf(currentLine);
+            /*
+            FileReader reader = new FileReader(budgetFile);
+            CharBuffer budget = null;
+            reader.read(budget);
+            */
+            //System.out.printf(budget);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
