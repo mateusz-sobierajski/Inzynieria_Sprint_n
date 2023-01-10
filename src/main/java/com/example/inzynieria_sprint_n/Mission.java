@@ -19,6 +19,8 @@ public class Mission {
         this.isBlacklisted = isBlacklisted;
     }
 
+
+
     Mission(String[] missionDetails){
         this.missionName = missionDetails[0];
         this.budgetString = missionDetails[1];
