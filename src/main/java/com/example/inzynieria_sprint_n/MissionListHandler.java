@@ -1,14 +1,18 @@
 package com.example.inzynieria_sprint_n;
 
 import java.io.*;
+import java.util.List;
 
 public class MissionListHandler {
-    private File missionList;
+    private File fileMissionList;
 
-    MissionListHandler() {
+    private List<Mission> missionList;
+
+    MissionListHandler(List <Mission> missionList) {
         try {
-            missionList = new File("proposed_mission_list.csv");
-            if (missionList.createNewFile()) {
+            this.missionList = missionList;
+            fileMissionList = new File("proposed_mission_list.csv");
+            if (fileMissionList.createNewFile()) {
                 System.out.println("Plik stworzony prawidłowo");
             } else {
                 System.out.println("Plik już istnieje!");
@@ -19,12 +23,13 @@ public class MissionListHandler {
         }
     }
 
-    int addRecord(String missionName, String budgetString, String priority) {
+    int addRecord(Mission mission) {
         try {
 
-            FileWriter writer = new FileWriter(missionList, true);
+            FileWriter writer = new FileWriter(fileMissionList, true);
             //writer.append(missionName + ";" + budgetString + ";" + priority);
-            writer.write(missionName + ";" + budgetString + ";" + priority + ";" + false +  "\n");
+            System.out.println(mission.toString());
+            writer.write(mission.toString());
             writer.close();
             listMissions();
             return 0;
@@ -33,15 +38,13 @@ public class MissionListHandler {
             return -1;
         }
     }
-    String getRecord() {
-        return ("a");
-    }
+
     void listMissions() {
         String line = "";
         String splitBy = ";";
         try {
 
-            BufferedReader br = new BufferedReader(new FileReader(missionList));
+            BufferedReader br = new BufferedReader(new FileReader(fileMissionList));
             while ((line = br.readLine()) != null)   //returns a Boolean value
             {
                 String[] missionDetails = line.split(splitBy);    // use comma as separator
@@ -51,7 +54,15 @@ public class MissionListHandler {
             e.printStackTrace();
         }
     }
+/*
+    @FXML
+    Pane secPane;
 
+    public void loadFxml(ActionEvent event) throws IOException {
+        Pane newLoadedPane = FXMLLoader.load();
+        secPane.getChildren().add(newLoadedPane);
+    }
+*/
     //TODO ta klasa będzie tylko obsługiwała plik ze wszystkimi klasmi
     // do wyboru misji przez algotytm będzie nowa
 }

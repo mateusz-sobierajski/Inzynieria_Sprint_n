@@ -9,6 +9,9 @@ import javafx.scene.chart.PieChart;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NewMissionHandler {
     @FXML
     private TextField missionNameInput;
@@ -17,7 +20,7 @@ public class NewMissionHandler {
     @FXML
     private Button missionAcceptBtn;
     @FXML
-    private ListView missionList;
+    private ListView missionListView;
 
     //TODO sprawdzić czy te tagi @FXML są potrzebne
     @FXML
@@ -29,17 +32,24 @@ public class NewMissionHandler {
     @FXML
     private String priority;
 
-    public NewMissionHandler(){
-        listHandler = new MissionListHandler();
+    private List<Mission> missionList = new ArrayList<Mission>();
+
+    public NewMissionHandler() {
+        listHandler = new MissionListHandler(missionList);
     }
 
     //TODO kontroler dla fxmla nadzorujący resztę klas
     @FXML
-    public void addMissionClick(){
+    public void addMissionClick() {
+        /*
         String missionName = missionNameInput.getText();
         String budgetString = budgetInput.getText();
         long budgetLong = Long.parseLong(budgetString);
-        listHandler.addRecord(missionName, budgetString, "UNP");//UNP - bez nadanego priorytetu
+        Mission mission = new Mission(missionName, budgetString, "UNP", false);
+        missionList.add(mission);
+        listHandler.addRecord(mission);//UNP - bez nadanego priorytetu
+        */
+
     }
     /*
     @FXML

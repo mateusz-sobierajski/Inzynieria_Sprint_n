@@ -13,6 +13,9 @@ import javafx.scene.chart.PieChart;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class BudgetScreenHandler {
     @FXML
@@ -20,21 +23,28 @@ public class BudgetScreenHandler {
     @FXML
     private TextField budgetInput;
     @FXML
-    private ListView missionList;
+    private ListView missionListView;
 
     private MissionListHandler listHandler;
 
+    private List<Mission> missionList;
+
     public BudgetScreenHandler(){
 
-        listHandler = new MissionListHandler();
+        listHandler = new MissionListHandler(missionList);
     }
 
     @FXML
     public void addMissionClick(){
+        /*
         String missionName = missionNameInput.getText();
         String budgetString = budgetInput.getText();
         long budgetLong = Long.parseLong(budgetString);
-        listHandler.addRecord(missionName, budgetString, "UNP");//UNP - bez nadanego priorytetu
+        Mission mission = new Mission(missionName, budgetString, "UNP", false);
+        missionList.add(mission);
+        listHandler.addRecord(mission);//UNP - bez nadanego priorytetu
+    */
     }
+
 
 }
