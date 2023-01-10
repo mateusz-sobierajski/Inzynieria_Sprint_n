@@ -31,4 +31,8 @@ public class Mission {
         }
     }
 
+    @Override
+    public java.lang.String toString() {
+        return this.missionName + ";" + this.budgetString + ";" + this.priority + ";" + this.isBlacklisted + "\n";
+    }
 }
