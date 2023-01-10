@@ -29,7 +29,8 @@ public class BudgetManager {
 
         try {
             FileWriter writer = new FileWriter(budgetFile);
-            writer.write(newBudget);
+            writer.write(Double.toString(newBudget));
+            //writer.write(newBudget);
         }
         catch (Exception e){
             e.printStackTrace();
