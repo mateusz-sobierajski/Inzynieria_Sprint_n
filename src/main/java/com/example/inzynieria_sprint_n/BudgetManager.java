@@ -1,56 +1,43 @@
 package com.example.inzynieria_sprint_n;
 
 import java.io.*;
-import java.nio.CharBuffer;
 
 public class BudgetManager {
     //TODO zdecydować czy zrobić osobną klasę do algorytmu czy wrzucać tu
     private long currentAgencyBudget;
-    private File budgetFile;
+    private final File budgetFile;
 
-    long getCurrentBudget(){
+    public long getCurrentBudget(){
         return currentAgencyBudget;
     }
 
-    void setCurrentAgencyBudget(long newBudget){
+    public void setCurrentAgencyBudget(long newBudget) throws IOException {
         currentAgencyBudget = newBudget;
-        try {
-            budgetFile = new File("budget_file.csv");
-            if (budgetFile.createNewFile()) {
-                System.out.println("Plik stworzony prawidłowo");
-            } else {
-                System.out.println("Plik już istnieje!");
-            }
-        } catch (IOException e) {
-            System.out.println("Blad tworzenia pliku!!!1!");
-            e.printStackTrace();
+        if (!budgetFile.canWrite()) {
+            throw new IOException("Brak dostępu do pliku z budżetem.");
         }
-
-        try {
-            FileWriter writer = new FileWriter(budgetFile);
+        try (FileWriter writer = new FileWriter(budgetFile)) {
             writer.write(Long.toString(newBudget));
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
     }
-
-    BudgetManager(){
-        try {
-
-            BufferedReader reader = new BufferedReader(new FileReader(budgetFile));
-            String currentLine = reader.readLine();
-            reader.close();
-            System.out.printf(currentLine);
-            /*
-            FileReader reader = new FileReader(budgetFile);
-            CharBuffer budget = null;
-            reader.read(budget);
-            */
-            //System.out.printf(budget);
+    public BudgetManager() throws IOException {
+        budgetFile = new File("budget_file.csv");
+        if (!budgetFile.exists()) {
+            if (budgetFile.createNewFile()) {
+                System.out.println("Plik stworzony prawidłowo");
+            }
         }
-        catch (Exception e){
-            e.printStackTrace();
+
+        if (!budgetFile.canRead()) {
+            throw new IOException("Brak dostępu do pliku z budżetem.");
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(budgetFile))) {
+            String currentLine = reader.readLine();
+            if (currentLine == null || currentLine.isEmpty()) {
+                throw new IOException("Plik z budżetem jest pusty.");
+            }
+            currentAgencyBudget = Long.parseLong(currentLine);
         }
     }
 }
