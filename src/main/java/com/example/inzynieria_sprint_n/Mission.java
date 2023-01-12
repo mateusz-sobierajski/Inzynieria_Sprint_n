@@ -5,14 +5,15 @@ public class Mission {
     private String budgetString;
     private String priority;
     private boolean isBlacklisted;
-    Mission(){
+
+    public Mission() {
         missionName = "Mission Name";
         budgetString = "0";
         priority = "UNP";
         isBlacklisted = false;
     }
 
-    Mission(String missionName, String budgetString, String priority, boolean isBlacklisted){
+    public Mission(String missionName, String budgetString, String priority, boolean isBlacklisted) {
         this.missionName = missionName;
         this.budgetString = budgetString;
         this.priority = priority;
@@ -20,17 +21,31 @@ public class Mission {
     }
 
 
-
-    Mission(String[] missionDetails){
+    public Mission(String[] missionDetails) {
         this.missionName = missionDetails[0];
         this.budgetString = missionDetails[1];
         this.priority = missionDetails[2];
-        if(missionDetails[3] == "true"){
+        if (missionDetails[3] == "true") {
             this.isBlacklisted = true;
-        }
-        else{
+        } else {
             this.isBlacklisted = false;
         }
+    }
+
+    public String getMissionName() {
+        return missionName;
+    }
+
+    public String getBudgetString() {
+        return budgetString;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public boolean isBlacklisted() {
+        return isBlacklisted;
     }
 
     @Override

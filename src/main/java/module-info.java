@@ -10,7 +10,10 @@ module com.example.inzynieria_sprint_n {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires junit;
 
     opens com.example.inzynieria_sprint_n to javafx.fxml;
     exports com.example.inzynieria_sprint_n;
+    exports com.example.inzynieria_sprint_n.tests;
+    opens com.example.inzynieria_sprint_n.tests to javafx.fxml;
 }
