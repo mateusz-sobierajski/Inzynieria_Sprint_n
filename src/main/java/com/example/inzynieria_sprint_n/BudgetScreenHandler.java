@@ -13,6 +13,7 @@ import javafx.scene.chart.PieChart;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class BudgetScreenHandler {
 
     private List<Mission> missionList;
 
-    public BudgetScreenHandler(){
+    public BudgetScreenHandler() throws IOException {
 
         listHandler = new MissionListHandler(missionList);
     }

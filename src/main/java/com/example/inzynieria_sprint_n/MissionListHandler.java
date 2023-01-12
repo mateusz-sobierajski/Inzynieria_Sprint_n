@@ -4,11 +4,43 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MissionListHandler {
-    private final File fileMissionList;
-    private final List<Mission> missionList;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 
-    MissionListHandler() throws IOException {
+public class MissionListHandler {
+
+    private ListView<Mission> listView;
+    private ObservableList<Mission> missionList;
+    private final File fileMissionList;
+    private final List<Mission> missionArrayList;
+
+    MissionListHandler(List<Mission> missionList) throws IOException {
+
+        /*
+        private ListView<Mission> listView;
+    private ObservableList<Mission> missionList;
+
+    MissionListViewHandler(ListView<Mission> listView, List<Mission> missionList) {
+        this.listView = listView;
+        this.missionList = FXCollections.observableArrayList(missionList);
+        listView.setItems(this.missionList);
+    }
+
+    public void updateList() {
+        listView.setItems(null);
+        listView.setItems(missionList);
+    }
+
+    public void addMission(Mission mission) {
+        missionList.add(mission);
+        updateList();
+    }
+
+    public void removeMission(Mission mission) {
+        missionList.remove(mission);
+        updateList();
+    }
+        */
         fileMissionList = new File("proposed_mission_list.csv");
         if (!fileMissionList.exists()) {
             if (fileMissionList.createNewFile()) {
@@ -20,19 +52,19 @@ public class MissionListHandler {
         if (!fileMissionList.canRead()) {
             throw new IOException("Brak dostępu do pliku z listą misji.");
         }
-        missionList = new ArrayList<>();
+        missionArrayList = new ArrayList<>();
         String line = "";
         String splitBy = ";";
         BufferedReader br = new BufferedReader(new FileReader(fileMissionList));
         while ((line = br.readLine()) != null) {
             String[] missionDetails = line.split(splitBy);
-            missionList.add(new Mission(missionDetails[0], missionDetails[1], missionDetails[2], Boolean.parseBoolean(missionDetails[3])));
+            missionArrayList.add(new Mission(missionDetails[0], missionDetails[1], missionDetails[2], Boolean.parseBoolean(missionDetails[3])));
         }
     }
 
     void addRecord(Mission mission) {
         try (FileWriter writer = new FileWriter(fileMissionList, true)) {
-            missionList.add(mission);
+            missionArrayList.add(mission);
             writer.write(mission.toString());
             listMissions();
         } catch (IOException e) {
@@ -41,7 +73,7 @@ public class MissionListHandler {
     }
 
     void listMissions() {
-        for (Mission mission : missionList) {
+        for (Mission mission : missionArrayList) {
             System.out.println("Details: [Name=" + mission.getMissionName() + ", Cost=" + mission.getBudgetString() + ", Priority=" + mission.getPriority() + ", IsBlacklisted=" + mission.isBlacklisted() + "]");
         }
     }

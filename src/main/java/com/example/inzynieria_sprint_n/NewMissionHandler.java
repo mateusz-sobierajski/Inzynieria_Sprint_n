@@ -9,6 +9,7 @@ import javafx.scene.chart.PieChart;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class NewMissionHandler {
 
     private List<Mission> missionList = new ArrayList<Mission>();
 
-    public NewMissionHandler() {
+    public NewMissionHandler() throws IOException {
         listHandler = new MissionListHandler(missionList);
     }
 
