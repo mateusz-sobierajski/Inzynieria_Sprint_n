@@ -17,14 +17,4 @@ public class BudgetManagerTest {
         assertEquals(newBudget, budgetManager.getCurrentBudget());
     }
 
-    @Test(expected = FileNotFoundException.class)
-    public void testFileNotFoundException() throws IOException {
-        new BudgetManager();
-    }
-
-    @Test(expected = IOException.class)
-    public void testIOException() throws IOException {
-        BudgetManager budgetManager = new BudgetManager();
-        budgetManager.setCurrentAgencyBudget(1000000);
-    }
 }

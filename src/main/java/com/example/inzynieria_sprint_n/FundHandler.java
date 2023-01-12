@@ -1,5 +1,6 @@
 package com.example.inzynieria_sprint_n;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,8 +44,7 @@ public class FundHandler
     }
 
     @FXML
-    private void printOutput()
-    {
+    private void printOutput() throws IOException {
         outputText.setText(inputText.getText());
         pieChart.setStartAngle(0);
 
