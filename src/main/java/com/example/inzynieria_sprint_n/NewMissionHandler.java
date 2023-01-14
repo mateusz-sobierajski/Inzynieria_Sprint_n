@@ -3,15 +3,9 @@ package com.example.inzynieria_sprint_n;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.chart.PieChart;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class NewMissionHandler {
     @FXML
@@ -30,16 +24,12 @@ public class NewMissionHandler {
     private long budget;
     @FXML
     private MissionListHandler listHandler;
-    @FXML
-    private String priority;
 
-    private List<Mission> missionList = new ArrayList<Mission>();
 
     public NewMissionHandler() throws IOException {
-        listHandler = new MissionListHandler(missionList);
+        listHandler = new MissionListHandler();
     }
 
-    //TODO kontroler dla fxmla nadzorujący resztę klas
     @FXML
     public void addMissionClick() {
 
@@ -47,15 +37,8 @@ public class NewMissionHandler {
         String budgetString = budgetInput.getText();
 
         Mission mission = new Mission(missionName, budgetString, "UNP", false);
-        //System.out.println(mission);
-        missionList.add(mission);
         listHandler.addRecord(mission);//UNP - bez nadanego priorytetu
 
 
     }
-    /*
-    @FXML
-    public void printOutput(){
-    }
-    */
 }

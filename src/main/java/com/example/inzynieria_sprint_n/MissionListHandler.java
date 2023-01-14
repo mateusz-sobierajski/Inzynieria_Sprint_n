@@ -14,12 +14,9 @@ public class MissionListHandler {
     private final File fileMissionList;
     private final List<Mission> missionArrayList;
 
-    MissionListHandler(List<Mission> missionList) throws IOException {
+    MissionListHandler() throws IOException {
 
         /*
-        private ListView<Mission> listView;
-    private ObservableList<Mission> missionList;
-
     MissionListViewHandler(ListView<Mission> listView, List<Mission> missionList) {
         this.listView = listView;
         this.missionList = FXCollections.observableArrayList(missionList);
@@ -77,14 +74,6 @@ public class MissionListHandler {
             System.out.println("Details: [Name=" + mission.getMissionName() + ", Cost=" + mission.getBudgetString() + ", Priority=" + mission.getPriority() + ", IsBlacklisted=" + mission.isBlacklisted() + "]");
         }
     }
-/*
-    @FXML
-    Pane secPane;
 
-    public void loadFxml(ActionEvent event) throws IOException {
-        Pane newLoadedPane = FXMLLoader.load();
-        secPane.getChildren().add(newLoadedPane);
-    }
-*/
 }
 
