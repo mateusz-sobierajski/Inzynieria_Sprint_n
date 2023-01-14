@@ -6,10 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class NewMissionHandler implements Initializable {
@@ -33,12 +35,23 @@ public class NewMissionHandler implements Initializable {
                     setText(null);
                 } else {
                     //TODO ZABAWA FORMATAMI ZEBY LADNIE WYGLADALO
-                    setText(String.format( "%40s | ", item.getMissionName()) + item.getBudgetString() + "$ | " + item.getPriority() + " | " + item.isBlacklisted());
+                    setText(String.format("%40s | ", item.getMissionName()) + item.getBudgetString() + "$ | " + item.getPriority() + " | " + item.isBlacklisted());
+                }
+                if (Objects.requireNonNull(item).isBlacklisted()) {
+                    setTextFill(Color.RED);
+                }
+                int priority = Integer.parseInt(item.getPriority());
+                if (priority > 6) {
+                    setStyle("-fx-background-color: green;");
+                } else if(priority > 3){
+                    setStyle("-fx-background-color: yellow;");
+                }else{
+                    setStyle("-fx-background-color: orange;");
                 }
             }
         });
 
-        for (Mission mission : listHandler.missionArrayList){
+        for (Mission mission : listHandler.missionArrayList) {
             missionListView.getItems().add(mission);
         }
     }
