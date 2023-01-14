@@ -63,7 +63,7 @@ public class NewMissionHandler implements Initializable {
         String budgetString = budgetInput.getText();
         Mission mission = new Mission(missionName, budgetString, "UNP", false);
         listHandler.addRecord(mission);//UNP - bez nadanego priorytetu
-
+        missionListView.getItems().add(mission);
 
     }
 }
