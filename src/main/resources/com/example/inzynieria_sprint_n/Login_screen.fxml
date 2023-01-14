@@ -92,9 +92,9 @@
             <Font size="18.0" />
           </font>
         </Label>
-            <Button layoutX="296.0" layoutY="253.0" mnemonicParsing="false" text="Login" />
-            <PasswordField layoutX="240.0" layoutY="198.0" promptText="Hasło" />
-            <TextField layoutX="240.0" layoutY="160.0" promptText="Login" />
+            <Button fx:id = "loginButton" layoutX="296.0" layoutY="253.0" mnemonicParsing="false" text="Login" />
+            <PasswordField fx:id = "passwordField" layoutX="240.0" layoutY="198.0" promptText="Hasło" />
+            <TextField fx:id = "usernameField" layoutX="240.0" layoutY="160.0" promptText="Login" />
       </children>
     </AnchorPane>
   </children>
