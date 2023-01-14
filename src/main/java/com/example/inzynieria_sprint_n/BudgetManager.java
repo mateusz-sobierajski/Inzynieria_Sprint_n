@@ -1,13 +1,17 @@
 package com.example.inzynieria_sprint_n;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
+import java.util.Objects;
 
 public class BudgetManager {
     //TODO zdecydować czy zrobić osobną klasę do algorytmu czy wrzucać tu
     private long currentAgencyBudget;
     private final File budgetFile;
 
-    public long getCurrentBudget(){
+    public long getCurrentBudget() {
         return currentAgencyBudget;
     }
 
@@ -20,20 +24,15 @@ public class BudgetManager {
             writer.write(Long.toString(newBudget));
         }
     }
-    public BudgetManager() throws IOException {
-        budgetFile = new File("budget_file.csv");
-        if (!budgetFile.exists()) {
-            if (budgetFile.createNewFile()) {
-                System.out.println("Plik stworzony prawidłowo");
-            }
-        }
 
-        if (!budgetFile.canRead()) {
-            throw new IOException("Brak dostępu do pliku z budżetem.");
-        }
+    public BudgetManager() throws IOException, URISyntaxException {
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(budgetFile))) {
-            String currentLine = reader.readLine();
+        URL fileUrl = getClass().getResource("/csv/budget_file.csv");
+        File file = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
+        this.budgetFile = file;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String currentLine = br.readLine();
             if (currentLine == null || currentLine.isEmpty()) {
                 throw new IOException("Plik z budżetem jest pusty.");
             }

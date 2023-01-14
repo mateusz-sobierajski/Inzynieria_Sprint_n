@@ -1,6 +1,7 @@
 package com.example.inzynieria_sprint_n;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,13 +45,12 @@ public class FundHandler
     }
 
     @FXML
-    private void printOutput() throws IOException {
+    private void printOutput() throws IOException, URISyntaxException {
         outputText.setText(inputText.getText());
         pieChart.setStartAngle(0);
 
         String Input = inputText.getText();
-        long longInput = Long.parseLong(Input);
-        float floatInput = longInput;
+        float floatInput = Long.parseLong(Input);
 
         System.out.println(floatInput);
 

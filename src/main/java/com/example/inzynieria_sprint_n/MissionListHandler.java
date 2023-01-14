@@ -1,8 +1,12 @@
 package com.example.inzynieria_sprint_n;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
@@ -14,7 +18,7 @@ public class MissionListHandler {
     private final File fileMissionList;
     private final List<Mission> missionArrayList;
 
-    MissionListHandler() throws IOException {
+    MissionListHandler() throws IOException, URISyntaxException {
 
         /*
     MissionListViewHandler(ListView<Mission> listView, List<Mission> missionList) {
@@ -38,7 +42,9 @@ public class MissionListHandler {
         updateList();
     }
         */
-        fileMissionList = new File("proposed_mission_list.csv");
+        URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
+        fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
+
         if (!fileMissionList.exists()) {
             if (fileMissionList.createNewFile()) {
                 System.out.println("Plik stworzony prawidłowo");
