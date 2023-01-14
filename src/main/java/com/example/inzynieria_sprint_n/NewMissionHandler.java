@@ -36,17 +36,23 @@ public class NewMissionHandler implements Initializable {
                 } else {
                     //TODO ZABAWA FORMATAMI ZEBY LADNIE WYGLADALO
                     setText(String.format("%40s | ", item.getMissionName()) + item.getBudgetString() + "$ | " + item.getPriority() + " | " + item.isBlacklisted());
-                }
-                if (Objects.requireNonNull(item).isBlacklisted()) {
-                    setTextFill(Color.RED);
-                }
-                int priority = Integer.parseInt(item.getPriority());
-                if (priority > 6) {
-                    setStyle("-fx-background-color: green;");
-                } else if(priority > 3){
-                    setStyle("-fx-background-color: yellow;");
-                }else{
-                    setStyle("-fx-background-color: orange;");
+
+                    if (Objects.requireNonNull(item).isBlacklisted()) {
+                        setTextFill(Color.RED);
+                    }
+
+                    //setting colours due to priority
+                    int priority = -1;
+                    if (!item.getPriority().equals("UNP"))
+                        priority = Integer.parseInt(item.getPriority());
+                    
+                    if (priority > 6) {
+                        setStyle("-fx-background-color: green;");
+                    } else if (priority > 3) {
+                        setStyle("-fx-background-color: yellow;");
+                    } else {
+                        setStyle("-fx-background-color: orange;");
+                    }
                 }
             }
         });
