@@ -9,7 +9,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public class HelloApplication extends Application {
@@ -38,7 +44,29 @@ public class HelloApplication extends Application {
                 // Show an error message if the fields are empty
                 System.out.println("Please enter a username and password.");
             } else {
-                System.out.println("Attempting to log in with username: " + username + " and password: " + password);
+                // Perform the login action
+                try {
+                    URL fileUrl = getClass().getResource("/csv/workers.csv");
+                    File file = Paths.get(fileUrl.toURI()).toFile();
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+
+                    String line;
+                    boolean matchFound = false;
+                    while ((line = br.readLine()) != null) {
+                        String[] userData = line.split(";");
+                        if (username.equals(userData[0]) && password.equals(userData[1])) {
+                            matchFound = true;
+                            System.out.println("Login successful.");
+                            //You can add code here to handle a successful login
+                            break;
+                        }
+                    }
+                    if (!matchFound) {
+                        System.out.println("Invalid login credentials.");
+                    }
+                } catch (IOException | URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
