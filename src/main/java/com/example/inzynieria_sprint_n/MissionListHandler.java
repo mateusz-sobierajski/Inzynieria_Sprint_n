@@ -16,7 +16,7 @@ public class MissionListHandler {
     private ListView<Mission> listView;
     private ObservableList<Mission> missionList;
     private final File fileMissionList;
-    private final List<Mission> missionArrayList;
+    protected final List<Mission> missionArrayList;
 
     MissionListHandler() throws IOException, URISyntaxException {
 

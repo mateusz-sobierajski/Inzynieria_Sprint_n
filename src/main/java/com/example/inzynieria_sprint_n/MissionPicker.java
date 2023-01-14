@@ -1,12 +1,9 @@
 package com.example.inzynieria_sprint_n;
 
-import javafx.css.Size;
-import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
-
-import java.io.*;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.HashMap;
-import java.util.Vector;
 import java.util.Map;
 
 public class MissionPicker {
@@ -14,7 +11,6 @@ public class MissionPicker {
     BufferedReader reader;
 
     Map <String, Integer> budgets = new HashMap<>();
-    //ArrayList <Integer> budgets = new ArrayList<>();
 
     BudgetManager budgetManager;
 
@@ -34,15 +30,10 @@ public class MissionPicker {
         try {
 
             String line = reader.readLine();
-            //System.out.println(line);
-            int i = 0;
             while(line!=null){
                 String[] tokens = line.split(";");
-                //budgets.add(Integer.parseInt(tokens[1]));
-                //System.out.println(tokens[0] + "\n" + (Integer.parseInt(tokens[1])+1) +"\n");
                 budgets.put(tokens[0], Integer.parseInt(tokens[1]));
                 line = reader.readLine();
-                ++i;
             }
 
         }
@@ -53,11 +44,6 @@ public class MissionPicker {
         for (Map.Entry<String, Integer> entry : budgets.entrySet()) {
             System.out.println(entry.getKey() + ":" + entry.getValue());
         }
-/*
-        for(Integer i:budgets) {
-            System.out.println(i);
-        }
-*/
     }
     //TODO daty dodania
     //TODO testy

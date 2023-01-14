@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class MissionTest {
     @Test
     public void testDefaultConstructor() {
-        Mission mission = new Mission();
+        Mission mission = new Mission("Nazwa misji, budżet, priorytet, czy jest na czarnej liscie", "", "", "");
         assertEquals("Mission Name", mission.getMissionName());
         assertEquals("0", mission.getBudgetString());
         assertEquals("UNP", mission.getPriority());

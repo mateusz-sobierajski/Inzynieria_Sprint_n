@@ -7,32 +7,50 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19"
+<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+           prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19"
            fx:controller="com.example.inzynieria_sprint_n.NewMissionHandler">
 
-  <panes>
-    <TitledPane animated="false" text="Dodaj propozycję misji">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <TextField fx:id="missionNameInput" layoutX="31.0" layoutY="26.0" prefHeight="26.0" prefWidth="523.0" promptText="Nazwa misji" />
-                  <TextField fx:id="budgetInput" layoutX="31.0" layoutY="68.0" prefHeight="26.0" prefWidth="523.0" promptText="Potrzebny budżet" />
-                  <Button fx:id="missionAcceptBtn" onAction="#addMissionClick" layoutX="259.0" layoutY="148.0" mnemonicParsing="false" text="Dodaj misję" />
-               </children></AnchorPane>
-      </content>
-    </TitledPane>
-    <TitledPane animated="false" text="Lista wybranych misji">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <ListView fx:id="missionListView" layoutX="14.0" layoutY="14.0" prefHeight="293.0" prefWidth="571.0" />
-               </children></AnchorPane>
-      </content>
-    </TitledPane>
-    <TitledPane animated="false" text="Ręczne usunięcie misji">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </TitledPane>
-  </panes>
+    <panes>
+        <TitledPane animated="false" text="Dodaj propozycję misji">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <TextField fx:id="missionNameInput" layoutX="31.0" layoutY="26.0" prefHeight="26.0"
+                                   prefWidth="523.0" promptText="Nazwa misji"/>
+                        <TextField fx:id="budgetInput" layoutX="31.0" layoutY="68.0" prefHeight="26.0" prefWidth="523.0"
+                                   promptText="Potrzebny budżet"/>
+                        <Button fx:id="missionAcceptBtn" onAction="#addMissionClick" layoutX="259.0" layoutY="148.0"
+                                mnemonicParsing="false" text="Dodaj misję"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <TitledPane animated="false" text="Lista wszystkich misji">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <ListView fx:id="missionListView" layoutX="14.0" layoutY="14.0" prefHeight="293.0"
+                                  prefWidth="571.0"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <TitledPane animated="false" text="Lista wybranych misji">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <ListView fx:id="missionChosenListView" layoutX="14.0" layoutY="14.0" prefHeight="293.0"
+                                  prefWidth="571.0"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+
+        <TitledPane animated="false" text="Ręczne usunięcie misji">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            </content>
+        </TitledPane>
+    </panes>
 </Accordion>

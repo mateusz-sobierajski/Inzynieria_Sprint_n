@@ -8,10 +8,10 @@ public class Mission {
     private final String priority;
     private final boolean isBlacklisted;
 
-    public Mission() {
-        missionName = "Mission Name";
-        budgetString = "0";
-        priority = "UNP";
+    public Mission(String missionName, String budgetString, String priority, String s) {
+        this.missionName = "Mission Name";
+        this.budgetString = "0";
+        this.priority = "UNP";
         isBlacklisted = false;
     }
 
