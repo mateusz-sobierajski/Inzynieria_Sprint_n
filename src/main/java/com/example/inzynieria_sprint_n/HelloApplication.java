@@ -47,7 +47,7 @@ public class HelloApplication extends Application {
                 // Perform the login action
                 try {
                     URL fileUrl = getClass().getResource("/csv/workers.csv");
-                    File file = Paths.get(fileUrl.toURI()).toFile();
+                    File file = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
                     BufferedReader br = new BufferedReader(new FileReader(file));
 
                     String line;
@@ -58,6 +58,12 @@ public class HelloApplication extends Application {
                             matchFound = true;
                             System.out.println("Login successful.");
                             //You can add code here to handle a successful login
+                            try {
+                                Parent missionMgmt = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Mission_mgmt.fxml")));
+                                stage.setScene(new Scene(missionMgmt, 800, 600));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             break;
                         }
                     }
