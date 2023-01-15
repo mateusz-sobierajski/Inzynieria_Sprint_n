@@ -13,19 +13,26 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class NewMissionHandler implements Initializable {
 
+    protected final List<Mission> missionArrayList;
     public Button deleteMissionBtnId;
     public Button addMissionBtnId;
     public ListView<Mission> missionChosenListView;
     public Button budgetBtnId;
-    public Button editBtnId;
+    public Button editMissionBtnId;
     @FXML
     private ListView<Mission> missionListView;
     @FXML
@@ -35,9 +42,11 @@ public class NewMissionHandler implements Initializable {
     private boolean isEditMode = false;
     private Mission selectedMission;
     private ObservableList<Mission> allMissions;
+
     @FXML
     public void handleEditBtn(ActionEvent event) {
         if (!isEditMode) {
+            editMissionBtnId.setText("Tryb edycji");
             selectedMission = missionListView.getSelectionModel().getSelectedItem();
             if (selectedMission != null) {
                 missionNameTextField.setText(selectedMission.getMissionName());
@@ -49,6 +58,7 @@ public class NewMissionHandler implements Initializable {
                 isEditMode = true;
             }
         } else {
+            editMissionBtnId.setText("Zapisz edycje");
             selectedMission.setMissionName(missionNameTextField.getText());
             selectedMission.setBudgetString(budgetTextField.getText());
             selectedMission.setBlacklisted(blacklistedCheckBox.isSelected());
@@ -59,6 +69,7 @@ public class NewMissionHandler implements Initializable {
             missionNameTextField.setEditable(false);
             budgetTextField.setEditable(false);
             isEditMode = false;
+            editMissionBtnId.setText("Tryb edycji");
         }
         //checkBudgetExceeded();
     }
@@ -120,15 +131,17 @@ public class NewMissionHandler implements Initializable {
 
         });
 
-        for (Mission mission : listHandler.missionArrayList) {
+        for (Mission mission : this.missionArrayList) {
             missionListView.getItems().add(mission);
         }
     }
+
     @FXML
     private Button budgetFilterBtn;
 
     @FXML
     private Button clearFilterBtn;
+
     @FXML
     public void budgetFilterPressed() {
         FilteredList<Mission> filteredData = new FilteredList<>(allMissions, p -> true);
@@ -140,12 +153,29 @@ public class NewMissionHandler implements Initializable {
         missionListView.setItems(allMissions);
     }
 
-    @FXML
-    private MissionListHandler listHandler;
-
 
     public NewMissionHandler() throws IOException, URISyntaxException {
-        listHandler = new MissionListHandler();
+        URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
+        File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
+
+        if (!fileMissionList.exists()) {
+            if (fileMissionList.createNewFile()) {
+                System.out.println("Plik stworzony prawidłowo");
+            }
+        } else {
+            System.out.println("Plik już istnieje!");
+        }
+        if (!fileMissionList.canRead()) {
+            throw new IOException("Brak dostępu do pliku z listą misji.");
+        }
+        missionArrayList = new ArrayList<>();
+        String line = "";
+        String splitBy = ";";
+        BufferedReader br = new BufferedReader(new FileReader(fileMissionList));
+        while ((line = br.readLine()) != null) {
+            String[] missionDetails = line.split(splitBy);
+            missionArrayList.add(new Mission(missionDetails[0], missionDetails[1], missionDetails[2], Boolean.parseBoolean(missionDetails[3])));
+        }
     }
 
     @FXML
