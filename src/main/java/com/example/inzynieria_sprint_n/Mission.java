@@ -3,10 +3,10 @@ package com.example.inzynieria_sprint_n;
 import java.util.Objects;
 
 public class Mission {
-    private final String missionName;
-    private final String budgetString;
-    private final String priority;
-    private final boolean isBlacklisted;
+    private String missionName;
+    private String budgetString;
+    private String priority;
+    private boolean isBlacklisted;
 
     public Mission() {
         this.missionName = "Mission Name";
@@ -55,5 +55,17 @@ public class Mission {
     @Override
     public java.lang.String toString() {
         return this.missionName + ";" + this.budgetString + ";" + this.priority + ";" + this.isBlacklisted + "\n";
+    }
+
+    public void setMissionName(String missionName) {
+        this.missionName = missionName;
+    }
+
+    public void setBudgetString(String budgetString) {
+        this.budgetString = budgetString;
+    }
+
+    public void setBlacklisted(boolean isBlacklisted) {
+        this.isBlacklisted = isBlacklisted;
     }
 }

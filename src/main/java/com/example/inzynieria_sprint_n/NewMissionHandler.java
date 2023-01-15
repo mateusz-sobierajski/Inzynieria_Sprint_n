@@ -23,12 +23,42 @@ public class NewMissionHandler implements Initializable {
     public Button addMissionBtnId;
     public ListView<Mission> missionChosenListView;
     public Button budgetBtnId;
+    public Button editBtnId;
     @FXML
     private ListView<Mission> missionListView;
     @FXML
     private TextField missionNameTextField, budgetTextField, priorityTextField;
     @FXML
     private CheckBox blacklistedCheckBox;
+    private boolean isEditMode = false;
+    private Mission selectedMission;
+
+    @FXML
+    public void handleEditBtn(ActionEvent event) {
+        if (!isEditMode) {
+            selectedMission = missionListView.getSelectionModel().getSelectedItem();
+            if (selectedMission != null) {
+                missionNameTextField.setText(selectedMission.getMissionName());
+                budgetTextField.setText(selectedMission.getBudgetString());
+                blacklistedCheckBox.setSelected(selectedMission.isBlacklisted());
+                missionNameTextField.setEditable(true);
+                budgetTextField.setEditable(true);
+                blacklistedCheckBox.setDisable(false);
+                isEditMode = true;
+            }
+        } else {
+            selectedMission.setMissionName(missionNameTextField.getText());
+            selectedMission.setBudgetString(budgetTextField.getText());
+            selectedMission.setBlacklisted(blacklistedCheckBox.isSelected());
+            missionListView.refresh();
+            missionNameTextField.clear();
+            budgetTextField.clear();
+            blacklistedCheckBox.setSelected(false);
+            missionNameTextField.setEditable(false);
+            budgetTextField.setEditable(false);
+            isEditMode = false;
+        }
+    }
 
     @FXML
     public void handleBudgetBtn(ActionEvent event) {

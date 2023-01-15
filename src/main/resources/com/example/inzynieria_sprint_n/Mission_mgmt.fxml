@@ -26,7 +26,7 @@
                   <Text layoutX="420.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dodawanie nowej misji" />
                   <Text layoutX="441.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuwanie misji" />
                   <CheckBox fx:id="blacklistedCheckBox" layoutX="456.0" layoutY="118.0" mnemonicParsing="false" text="blacklisted" />
-                  <Button layoutX="502.0" layoutY="175.0" mnemonicParsing="false" text="Edytuj misję" />
+                  <Button fx:id="editBtnId" layoutX="502.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleEditBtn" text="Edytuj misję" />
                   <Button fx:id="budgetBtnId" layoutX="414.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleBudgetBtn" text="Pokaż wykres budżetu" />
                     </children>
                 </AnchorPane>
