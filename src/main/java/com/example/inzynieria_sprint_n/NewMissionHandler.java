@@ -136,24 +136,6 @@ public class NewMissionHandler implements Initializable {
         }
     }
 
-    @FXML
-    private Button budgetFilterBtn;
-
-    @FXML
-    private Button clearFilterBtn;
-
-    @FXML
-    public void budgetFilterPressed() {
-        FilteredList<Mission> filteredData = new FilteredList<>(allMissions, p -> true);
-        filteredData.setPredicate(mission -> Integer.parseInt(mission.getBudgetString()) > 100000);
-        missionListView.setItems(filteredData);
-    }
-
-    public void removeBudgetFilter() {
-        missionListView.setItems(allMissions);
-    }
-
-
     public NewMissionHandler() throws IOException, URISyntaxException {
         URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
