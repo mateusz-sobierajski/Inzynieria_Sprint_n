@@ -1,6 +1,7 @@
 package com.example.inzynieria_sprint_n;
 
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,18 +36,15 @@ public class NewMissionHandler implements Initializable {
     @FXML
     private ListView<Mission> missionListView;
     @FXML
-    private TextField missionNameTextField;
-    @FXML
-    private TextField budgetTextField;
+    private TextField missionNameTextField, budgetTextField, priorityTextField;
     @FXML
     private CheckBox blacklistedCheckBox;
     private boolean isEditMode = false;
     private Mission selectedMission;
-    private final ObservableList<Mission> allMissions;
+    private ObservableList<Mission> allMissions;
 
     @FXML
     public void handleEditBtn(ActionEvent event) {
-        event.getEventType();
         if (!isEditMode) {
             editMissionBtnId.setText("Tryb edycji");
             selectedMission = missionListView.getSelectionModel().getSelectedItem();
@@ -102,7 +100,7 @@ public class NewMissionHandler implements Initializable {
         });
 
 
-        missionListView.setCellFactory(listView -> new ListCell<>() {
+        missionListView.setCellFactory(listView -> new ListCell<Mission>() {
             @Override
             protected void updateItem(Mission item, boolean empty) {
                 super.updateItem(item, empty);
@@ -138,9 +136,25 @@ public class NewMissionHandler implements Initializable {
         }
     }
 
+    @FXML
+    private Button budgetFilterBtn;
 
-    public NewMissionHandler(ObservableList<Mission> allMissions) throws IOException, URISyntaxException {
-        this.allMissions = allMissions;
+    @FXML
+    private Button clearFilterBtn;
+
+    @FXML
+    public void budgetFilterPressed() {
+        FilteredList<Mission> filteredData = new FilteredList<>(allMissions, p -> true);
+        filteredData.setPredicate(mission -> Integer.parseInt(mission.getBudgetString()) > 100000);
+        missionListView.setItems(filteredData);
+    }
+
+    public void removeBudgetFilter() {
+        missionListView.setItems(allMissions);
+    }
+
+
+    public NewMissionHandler() throws IOException, URISyntaxException {
         URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
 
@@ -155,7 +169,7 @@ public class NewMissionHandler implements Initializable {
             throw new IOException("Brak dostępu do pliku z listą misji.");
         }
         missionArrayList = new ArrayList<>();
-        String line;
+        String line = "";
         String splitBy = ";";
         BufferedReader br = new BufferedReader(new FileReader(fileMissionList));
         while ((line = br.readLine()) != null) {
