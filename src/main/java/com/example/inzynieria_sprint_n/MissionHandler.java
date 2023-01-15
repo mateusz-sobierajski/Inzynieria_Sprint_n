@@ -1,7 +1,6 @@
 package com.example.inzynieria_sprint_n;
 
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class NewMissionHandler implements Initializable {
+public class MissionHandler implements Initializable {
 
     protected final List<Mission> missionArrayList;
     public Button deleteMissionBtnId;
@@ -136,7 +135,7 @@ public class NewMissionHandler implements Initializable {
         }
     }
 
-    public NewMissionHandler() throws IOException, URISyntaxException {
+    public MissionHandler() throws IOException, URISyntaxException {
         URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
 
