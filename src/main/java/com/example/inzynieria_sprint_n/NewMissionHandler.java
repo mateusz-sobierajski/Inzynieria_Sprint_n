@@ -1,5 +1,6 @@
 package com.example.inzynieria_sprint_n;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -9,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -42,6 +44,7 @@ public class NewMissionHandler implements Initializable {
     private boolean isEditMode = false;
     private Mission selectedMission;
     private ObservableList<Mission> allMissions;
+    PieChart pieChart;
 
     @FXML
     public void handleEditBtn(ActionEvent event) {
@@ -216,5 +219,29 @@ public class NewMissionHandler implements Initializable {
             alert.setContentText("Please review your budget and missions");
             alert.showAndWait();
         }
+    }
+
+    @FXML
+    public void pieChart() throws IOException, URISyntaxException {
+        BudgetManager budgetMgr = new BudgetManager();
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        for(Mission m : missionChosenListView)
+            pieChartData.add(m.getMissionName(), (Float.parseFloat(m.getBudgetString())/budgetMgr.getCurrentBudget()));
+            //new PieChart.Data(m.getMissionName(), (Float.parseFloat(m.getBudgetString())/budgetMgr.getCurrentBudget()));
+                /*
+                FXCollections.observableArrayList(
+                        for(Mission m : missionChosenListView)
+                            new PieChart.Data(m.getMissionName(), (Float.parseFloat(m.getBudgetString())/budgetMgr.getCurrentBudget()));
+                        //pieChartData.a
+
+                        //new PieChart.Data("Pozostałe fundusze agencji", ((budgetMgr.getCurrentBudget()-floatInput)/(budgetMgr.getCurrentBudget()))));
+
+                 */
+        final PieChart chart = new PieChart(pieChartData);
+        chart.setTitle("Podział funduszy");
+        pieChart.setData(pieChartData);
+        pieChart.setTitle("Udział funduszy misji w budżecie agencji");
+        //pieChart = chart;
+
     }
 }
