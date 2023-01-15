@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 public class BudgetManager {
-    //TODO zdecydować czy zrobić osobną klasę do algorytmu czy wrzucać tu
     private long currentAgencyBudget;
     private final File budgetFile;
 

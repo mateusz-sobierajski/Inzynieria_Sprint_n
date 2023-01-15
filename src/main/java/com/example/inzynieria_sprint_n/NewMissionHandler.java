@@ -2,9 +2,14 @@ package com.example.inzynieria_sprint_n;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -14,18 +19,29 @@ import java.util.ResourceBundle;
 
 public class NewMissionHandler implements Initializable {
 
-    @FXML
-    private TextField missionNameInput;
-    @FXML
-    private TextField budgetInput;
-    @FXML
-    private Button missionAcceptBtn;
+    public Button deleteMissionBtnId;
+    public Button addMissionBtnId;
+    public ListView<Mission> missionChosenListView;
+    public Button budgetBtnId;
     @FXML
     private ListView<Mission> missionListView;
     @FXML
     private TextField missionNameTextField, budgetTextField, priorityTextField;
     @FXML
     private CheckBox blacklistedCheckBox;
+
+    @FXML
+    public void handleBudgetBtn(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Budget_ass_screen.fxml")));
+            Scene budgetScene = new Scene(root);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(budgetScene);
+            window.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -35,7 +51,6 @@ public class NewMissionHandler implements Initializable {
             if (selectedMission != null) {
                 missionNameTextField.setText(selectedMission.getMissionName());
                 budgetTextField.setText(selectedMission.getBudgetString());
-                //priorityTextField.setText(selectedMission.getPriority());
                 blacklistedCheckBox.setSelected(selectedMission.isBlacklisted());
             }
         });
@@ -69,6 +84,7 @@ public class NewMissionHandler implements Initializable {
                     }
                 }
             }
+
         });
 
         for (Mission mission : listHandler.missionArrayList) {
@@ -76,11 +92,6 @@ public class NewMissionHandler implements Initializable {
         }
     }
 
-    //TODO sprawdzić czy te tagi @FXML są potrzebne
-
-    private String missionName;
-
-    private long budget;
     @FXML
     private MissionListHandler listHandler;
 
@@ -106,7 +117,9 @@ public class NewMissionHandler implements Initializable {
 
     @FXML
     public void deleteMission() {
+
         Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
         missionListView.getItems().remove(selectedMission);
+        missionListView.refresh();
     }
 }
