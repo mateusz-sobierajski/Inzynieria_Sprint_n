@@ -2,12 +2,13 @@ package com.example.inzynieria_sprint_n.tests;
 
 import com.example.inzynieria_sprint_n.Mission;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class MissionTest {
     @Test
     public void testDefaultConstructor() {
-        Mission mission = new Mission("Nazwa misji, budżet, priorytet, czy jest na czarnej liscie", "", "", "");
+        Mission mission = new Mission("Nazwa misji, budżet, priorytet, czy jest na czarnej liscie", "");
         assertEquals("Mission Name", mission.getMissionName());
         assertEquals("0", mission.getBudgetString());
         assertEquals("UNP", mission.getPriority());

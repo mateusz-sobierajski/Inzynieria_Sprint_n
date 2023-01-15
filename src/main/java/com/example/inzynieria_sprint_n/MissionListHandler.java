@@ -20,28 +20,6 @@ public class MissionListHandler {
 
     MissionListHandler() throws IOException, URISyntaxException {
 
-        /*
-    MissionListViewHandler(ListView<Mission> listView, List<Mission> missionList) {
-        this.listView = listView;
-        this.missionList = FXCollections.observableArrayList(missionList);
-        listView.setItems(this.missionList);
-    }
-
-    public void updateList() {
-        listView.setItems(null);
-        listView.setItems(missionList);
-    }
-
-    public void addMission(Mission mission) {
-        missionList.add(mission);
-        updateList();
-    }
-
-    public void removeMission(Mission mission) {
-        missionList.remove(mission);
-        updateList();
-    }
-        */
         URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
         fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
 

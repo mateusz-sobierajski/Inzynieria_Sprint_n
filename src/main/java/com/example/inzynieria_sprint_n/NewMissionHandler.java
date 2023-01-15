@@ -1,11 +1,9 @@
 package com.example.inzynieria_sprint_n;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -23,10 +21,26 @@ public class NewMissionHandler implements Initializable {
     @FXML
     private Button missionAcceptBtn;
     @FXML
-    private ListView missionListView;
+    private ListView<Mission> missionListView;
+    @FXML
+    private TextField missionNameTextField, budgetTextField, priorityTextField;
+    @FXML
+    private CheckBox blacklistedCheckBox;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        missionListView.setOnMouseClicked(event -> {
+            Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
+            if (selectedMission != null) {
+                missionNameTextField.setText(selectedMission.getMissionName());
+                budgetTextField.setText(selectedMission.getBudgetString());
+                //priorityTextField.setText(selectedMission.getPriority());
+                blacklistedCheckBox.setSelected(selectedMission.isBlacklisted());
+            }
+        });
+
+
         missionListView.setCellFactory(listView -> new ListCell<Mission>() {
             @Override
             protected void updateItem(Mission item, boolean empty) {
@@ -35,7 +49,7 @@ public class NewMissionHandler implements Initializable {
                     setText(null);
                 } else {
                     //TODO ZABAWA FORMATAMI ZEBY LADNIE WYGLADALO
-                    setText(String.format("%40s | ", item.getMissionName()) + item.getBudgetString() + "$ | " + item.getPriority() + " | " + item.isBlacklisted());
+                    setText(item.getMissionName() + " | " + item.getBudgetString() + "$ | " + item.getPriority() + " | " + item.isBlacklisted());
 
                     if (Objects.requireNonNull(item).isBlacklisted()) {
                         setTextFill(Color.RED);
@@ -45,7 +59,7 @@ public class NewMissionHandler implements Initializable {
                     int priority = -1;
                     if (!item.getPriority().equals("UNP"))
                         priority = Integer.parseInt(item.getPriority());
-                    
+
                     if (priority > 6) {
                         setStyle("-fx-background-color: green;");
                     } else if (priority > 3) {
@@ -76,13 +90,23 @@ public class NewMissionHandler implements Initializable {
     }
 
     @FXML
-    public void addMissionClick() {
-
-        String missionName = missionNameInput.getText();
-        String budgetString = budgetInput.getText();
-        Mission mission = new Mission(missionName, budgetString, "UNP", false);
-        listHandler.addRecord(mission);//UNP - bez nadanego priorytetu
+    public void addMission() {
+        String missionName = missionNameTextField.getText();
+        String budgetString = budgetTextField.getText();
+        String priority = "UNP";
+        boolean isBlacklisted = blacklistedCheckBox.isSelected();
+        Mission mission = new Mission(missionName, budgetString, priority, isBlacklisted);
         missionListView.getItems().add(mission);
+        missionListView.refresh();
 
+        missionNameTextField.clear();
+        budgetTextField.clear();
+        blacklistedCheckBox.setSelected(false);
+    }
+
+    @FXML
+    public void deleteMission() {
+        Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
+        missionListView.getItems().remove(selectedMission);
     }
 }

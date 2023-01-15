@@ -8,7 +8,7 @@ public class Mission {
     private final String priority;
     private final boolean isBlacklisted;
 
-    public Mission(String missionName, String budgetString, String priority, String s) {
+    public Mission() {
         this.missionName = "Mission Name";
         this.budgetString = "0";
         this.priority = "UNP";
@@ -22,6 +22,12 @@ public class Mission {
         this.isBlacklisted = isBlacklisted;
     }
 
+    public Mission(String missionName, String budgetString) {
+        this.missionName = missionName;
+        this.budgetString = budgetString;
+        this.priority = "UNP";
+        this.isBlacklisted = false;
+    }
 
     public Mission(String[] missionDetails) {
         this.missionName = missionDetails[0];
