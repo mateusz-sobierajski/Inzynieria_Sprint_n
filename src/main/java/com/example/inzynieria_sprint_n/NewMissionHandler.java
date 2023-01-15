@@ -1,5 +1,7 @@
 package com.example.inzynieria_sprint_n;
 
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,7 +34,7 @@ public class NewMissionHandler implements Initializable {
     private CheckBox blacklistedCheckBox;
     private boolean isEditMode = false;
     private Mission selectedMission;
-
+    private ObservableList<Mission> allMissions;
     @FXML
     public void handleEditBtn(ActionEvent event) {
         if (!isEditMode) {
@@ -58,6 +60,7 @@ public class NewMissionHandler implements Initializable {
             budgetTextField.setEditable(false);
             isEditMode = false;
         }
+        //checkBudgetExceeded();
     }
 
     @FXML
@@ -121,6 +124,21 @@ public class NewMissionHandler implements Initializable {
             missionListView.getItems().add(mission);
         }
     }
+    @FXML
+    private Button budgetFilterBtn;
+
+    @FXML
+    private Button clearFilterBtn;
+    @FXML
+    public void budgetFilterPressed() {
+        FilteredList<Mission> filteredData = new FilteredList<>(allMissions, p -> true);
+        filteredData.setPredicate(mission -> Integer.parseInt(mission.getBudgetString()) > 100000);
+        missionListView.setItems(filteredData);
+    }
+
+    public void removeBudgetFilter() {
+        missionListView.setItems(allMissions);
+    }
 
     @FXML
     private MissionListHandler listHandler;
@@ -143,6 +161,8 @@ public class NewMissionHandler implements Initializable {
         missionNameTextField.clear();
         budgetTextField.clear();
         blacklistedCheckBox.setSelected(false);
+
+        //checkBudgetExceeded();
     }
 
     @FXML
@@ -151,5 +171,20 @@ public class NewMissionHandler implements Initializable {
         Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
         missionListView.getItems().remove(selectedMission);
         missionListView.refresh();
+    }
+
+    private void checkBudgetExceeded() {
+        int budget = Integer.parseInt(budgetTextField.getText());
+        int totalCost = 0;
+        for (Mission mission : allMissions) {
+            totalCost += Integer.parseInt(mission.getBudgetString());
+        }
+        if (totalCost > budget) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Budget exceeded");
+            alert.setHeaderText("The total cost of all missions has exceeded the budget");
+            alert.setContentText("Please review your budget and missions");
+            alert.showAndWait();
+        }
     }
 }
