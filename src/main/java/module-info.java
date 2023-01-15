@@ -11,6 +11,7 @@ module com.example.inzynieria_sprint_n {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires junit;
+    requires commons.csv;
 
     opens com.example.inzynieria_sprint_n to javafx.fxml;
     exports com.example.inzynieria_sprint_n;
