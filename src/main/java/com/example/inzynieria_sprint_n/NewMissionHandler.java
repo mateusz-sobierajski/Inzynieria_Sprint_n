@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class MissionHandler implements Initializable {
+public class NewMissionHandler implements Initializable {
 
     protected final List<Mission> missionArrayList;
     public Button deleteMissionBtnId;
@@ -139,7 +139,7 @@ public class MissionHandler implements Initializable {
     }
 
 
-    public MissionHandler(ObservableList<Mission> allMissions) throws IOException, URISyntaxException {
+    public NewMissionHandler(ObservableList<Mission> allMissions) throws IOException, URISyntaxException {
         this.allMissions = allMissions;
         URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
