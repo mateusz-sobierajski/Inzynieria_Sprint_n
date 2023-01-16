@@ -115,12 +115,12 @@ public class MissionHandler implements Initializable {
 
                     if (Objects.requireNonNull(item).isBlacklisted()) {
                         setTextFill(Color.RED);
+                    }else{
+                        setTextFill(Color.BLACK);
                     }
 
                     //setting colours due to priority
-                    int priority = -1;
-                    if (item.getPriority() == -1)
-                        priority = Integer.parseInt(String.valueOf(item.getPriority()));
+                    int priority = item.getPriority();
 
                     if (priority > 6) {
                         setStyle("-fx-background-color: green;");
@@ -161,8 +161,11 @@ public class MissionHandler implements Initializable {
         CSVFormat format = CSVFormat.DEFAULT.withDelimiter(splitBy.charAt(0));
         Iterable<CSVRecord> records = format.parse(reader);
 
+
         for (CSVRecord record : records)
-            missionArrayList.add(new Mission(record.get(0), record.get(1), (record.get(2)), Boolean.parseBoolean(record.get(3))));
+            if (!record.get(0).equals(""))
+                missionArrayList.add(new Mission(record.get(0), record.get(1), record.get(2), Boolean.parseBoolean(record.get(3))));
+
 
     }
 
