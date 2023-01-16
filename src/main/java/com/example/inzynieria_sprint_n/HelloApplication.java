@@ -18,9 +18,22 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+/**
+ * HelloApplication jest klasą, która posiada metodę start(),
+ */
 public class HelloApplication extends Application {
+    /**
+     * Funkcja start() przygotowuje i otwiera ekran logowania Login_screen
+     * następnie obsługuje logowanie i po podaniu prawidłowych danych przekazuje kontrolę ekranowi zarządzania misjami
+     * @see MissionHandler
+     * @param stage
+     * @throws IOException
+     */
     @Override
     public void start(Stage stage) throws IOException {
+        /**
+         * Utworzenie sceny stage
+         */
 
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login_screen.fxml")));
         stage.setTitle("N A S A");
@@ -73,7 +86,10 @@ public class HelloApplication extends Application {
         });
     }
 
-
+    /**
+     * Jedynym celem funkcji main() jest wywołanie komendy launch(), która powoduje otwarcie aplikacji FXML
+     * @param args
+     */
     public static void main(String[] args) {
         launch();
     }
