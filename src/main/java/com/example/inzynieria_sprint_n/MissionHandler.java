@@ -11,11 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -136,6 +135,7 @@ public class MissionHandler implements Initializable {
     }
 
     public MissionHandler() throws IOException, URISyntaxException {
+
         URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
 
@@ -150,12 +150,15 @@ public class MissionHandler implements Initializable {
             throw new IOException("Brak dostępu do pliku z listą misji.");
         }
         missionArrayList = new ArrayList<>();
-        String line;
         String splitBy = ";";
-        BufferedReader br = new BufferedReader(new FileReader(fileMissionList));
-        while ((line = br.readLine()) != null) {
-            String[] missionDetails = line.split(splitBy);
-            missionArrayList.add(new Mission(missionDetails[0], missionDetails[1], missionDetails[2], Boolean.parseBoolean(missionDetails[3])));
+        try (Reader reader = new FileReader(fileMissionList)) {
+            CSVFormat format = CSVFormat.DEFAULT.withDelimiter(splitBy.charAt(0));
+            Iterable<CSVRecord> records = format.parse(reader);
+            for (CSVRecord record : records) {
+                missionArrayList.add(new Mission(record.get(0), record.get(1), (record.get(2)), Boolean.parseBoolean(record.get(3))));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
