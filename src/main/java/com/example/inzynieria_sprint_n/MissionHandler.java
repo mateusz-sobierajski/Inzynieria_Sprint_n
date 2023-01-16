@@ -49,7 +49,7 @@ public class MissionHandler implements Initializable {
             selectedMission = missionListView.getSelectionModel().getSelectedItem();
             if (selectedMission != null) {
                 missionNameTextField.setText(selectedMission.getMissionName());
-                budgetTextField.setText(selectedMission.getBudgetString());
+                budgetTextField.setText(String.valueOf(selectedMission.getBudget()));
                 blacklistedCheckBox.setSelected(selectedMission.isBlacklisted());
                 missionNameTextField.setEditable(true);
                 budgetTextField.setEditable(true);
@@ -59,7 +59,7 @@ public class MissionHandler implements Initializable {
         } else {
             editMissionBtnId.setText("Zapisz edycje");
             selectedMission.setMissionName(missionNameTextField.getText());
-            selectedMission.setBudgetString(budgetTextField.getText());
+            selectedMission.setBudget(Long.parseLong(budgetTextField.getText()));
             selectedMission.setBlacklisted(blacklistedCheckBox.isSelected());
             missionListView.refresh();
             missionNameTextField.clear();
@@ -93,7 +93,7 @@ public class MissionHandler implements Initializable {
             Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
             if (selectedMission != null) {
                 missionNameTextField.setText(selectedMission.getMissionName());
-                budgetTextField.setText(selectedMission.getBudgetString());
+                budgetTextField.setText(String.valueOf(selectedMission.getBudget()));
                 blacklistedCheckBox.setSelected(selectedMission.isBlacklisted());
             }
         });
@@ -107,7 +107,7 @@ public class MissionHandler implements Initializable {
                     setText(null);
                 } else {
                     //TODO ZABAWA FORMATAMI ZEBY LADNIE WYGLADALO
-                    setText(item.getMissionName() + " | " + item.getBudgetString() + "$ | " + item.getPriority() + " | " + item.isBlacklisted());
+                    setText(item.getMissionName() + " | " + item.getBudget() + "$ | " + item.getPriority() + " | " + item.isBlacklisted());
 
                     if (Objects.requireNonNull(item).isBlacklisted()) {
                         setTextFill(Color.RED);
@@ -115,8 +115,8 @@ public class MissionHandler implements Initializable {
 
                     //setting colours due to priority
                     int priority = -1;
-                    if (!item.getPriority().equals("UNP"))
-                        priority = Integer.parseInt(item.getPriority());
+                    if (item.getPriority() == -1)
+                        priority = Integer.parseInt(String.valueOf(item.getPriority()));
 
                     if (priority > 6) {
                         setStyle("-fx-background-color: green;");
@@ -150,7 +150,7 @@ public class MissionHandler implements Initializable {
             throw new IOException("Brak dostępu do pliku z listą misji.");
         }
         missionArrayList = new ArrayList<>();
-        String line = "";
+        String line;
         String splitBy = ";";
         BufferedReader br = new BufferedReader(new FileReader(fileMissionList));
         while ((line = br.readLine()) != null) {
@@ -163,9 +163,8 @@ public class MissionHandler implements Initializable {
     public void addMission() {
         String missionName = missionNameTextField.getText();
         String budgetString = budgetTextField.getText();
-        String priority = "UNP";
         boolean isBlacklisted = blacklistedCheckBox.isSelected();
-        Mission mission = new Mission(missionName, budgetString, priority, isBlacklisted);
+        Mission mission = new Mission(missionName, budgetString, isBlacklisted);
         missionListView.getItems().add(mission);
         missionListView.refresh();
 
@@ -188,7 +187,7 @@ public class MissionHandler implements Initializable {
         int budget = Integer.parseInt(budgetTextField.getText());
         int totalCost = 0;
         for (Mission mission : allMissions) {
-            totalCost += Integer.parseInt(mission.getBudgetString());
+            totalCost += mission.getBudget();
         }
         if (totalCost > budget) {
             Alert alert = new Alert(Alert.AlertType.WARNING);

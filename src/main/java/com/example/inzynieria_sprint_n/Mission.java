@@ -4,47 +4,53 @@ import java.util.Objects;
 
 public class Mission {
     private String missionName;
-    private String budgetString;
-    private String priority;
+    private long budget;
+    private int priority;
     private boolean isBlacklisted;
 
     public Mission() {
         this.missionName = "Mission Name";
-        this.budgetString = "0";
-        this.priority = "UNP";
+        this.budget = 0;
+        this.priority = -1;
         isBlacklisted = false;
     }
 
     public Mission(String missionName, String budgetString, String priority, boolean isBlacklisted) {
         this.missionName = missionName;
-        this.budgetString = budgetString;
-        this.priority = priority;
+        this.budget = Long.parseLong(budgetString);
+        this.priority = Integer.parseInt(priority);
         this.isBlacklisted = isBlacklisted;
     }
 
     public Mission(String missionName, String budgetString) {
         this.missionName = missionName;
-        this.budgetString = budgetString;
-        this.priority = "UNP";
+        this.budget = Long.parseLong(budgetString);
+        this.priority = Integer.parseInt(String.valueOf(priority));
         this.isBlacklisted = false;
     }
 
     public Mission(String[] missionDetails) {
         this.missionName = missionDetails[0];
-        this.budgetString = missionDetails[1];
-        this.priority = missionDetails[2];
+        this.budget = Long.parseLong(missionDetails[1]);
+        this.priority = Integer.parseInt(missionDetails[2]);
         this.isBlacklisted = Objects.equals(missionDetails[3], "true");
+    }
+
+    public Mission(String missionName, String budgetString, boolean isBlacklisted) {
+        this.missionName = missionName;
+        this.budget = Long.parseLong(budgetString);
+        this.isBlacklisted = isBlacklisted;
     }
 
     public String getMissionName() {
         return missionName;
     }
 
-    public String getBudgetString() {
-        return budgetString;
+    public long getBudget() {
+        return budget;
     }
 
-    public String getPriority() {
+    public int getPriority() {
         return priority;
     }
 
@@ -54,15 +60,19 @@ public class Mission {
 
     @Override
     public java.lang.String toString() {
-        return this.missionName + ";" + this.budgetString + ";" + this.priority + ";" + this.isBlacklisted + "\n";
+        return this.missionName + ";" + this.budget + ";" + this.priority + ";" + this.isBlacklisted + "\n";
     }
 
     public void setMissionName(String missionName) {
         this.missionName = missionName;
     }
 
-    public void setBudgetString(String budgetString) {
-        this.budgetString = budgetString;
+    public void setBudget(long budget) {
+        this.budget = budget;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     public void setBlacklisted(boolean isBlacklisted) {
