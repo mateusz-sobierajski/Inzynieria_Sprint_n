@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
@@ -43,6 +44,8 @@ public class MissionHandler implements Initializable {
 
     @FXML
     public void handleEditBtn(ActionEvent event) {
+
+        //do wyjebania to jest
         if (!isEditMode) {
             editMissionBtnId.setText("Tryb edycji");
             selectedMission = missionListView.getSelectionModel().getSelectedItem();
@@ -136,6 +139,8 @@ public class MissionHandler implements Initializable {
 
     public MissionHandler() throws IOException, URISyntaxException {
 
+        missionArrayList = new ArrayList<>();
+
         URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
 
@@ -149,55 +154,52 @@ public class MissionHandler implements Initializable {
         if (!fileMissionList.canRead()) {
             throw new IOException("Brak dostępu do pliku z listą misji.");
         }
-        missionArrayList = new ArrayList<>();
         String splitBy = ";";
-        try (Reader reader = new FileReader(fileMissionList)) {
-            CSVFormat format = CSVFormat.DEFAULT.withDelimiter(splitBy.charAt(0));
-            Iterable<CSVRecord> records = format.parse(reader);
-            for (CSVRecord record : records) {
-                missionArrayList.add(new Mission(record.get(0), record.get(1), (record.get(2)), Boolean.parseBoolean(record.get(3))));
+        Reader reader = new FileReader(fileMissionList);
+        CSVFormat format = CSVFormat.DEFAULT.withDelimiter(splitBy.charAt(0));
+        Iterable<CSVRecord> records = format.parse(reader);
+
+        for (CSVRecord record : records)
+            missionArrayList.add(new Mission(record.get(0), record.get(1), (record.get(2)), Boolean.parseBoolean(record.get(3))));
+
+    }
+
+        @FXML
+        public void addMission () {
+            String missionName = missionNameTextField.getText();
+            String budgetString = budgetTextField.getText();
+            boolean isBlacklisted = blacklistedCheckBox.isSelected();
+            Mission mission = new Mission(missionName, budgetString, isBlacklisted);
+            missionListView.getItems().add(mission);
+            missionListView.refresh();
+
+            missionNameTextField.clear();
+            budgetTextField.clear();
+            blacklistedCheckBox.setSelected(false);
+
+            //checkBudgetExceeded();
+        }
+
+        @FXML
+        public void deleteMission () {
+
+            Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
+            missionListView.getItems().remove(selectedMission);
+            missionListView.refresh();
+        }
+
+        private void checkBudgetExceeded () {
+            int budget = Integer.parseInt(budgetTextField.getText());
+            int totalCost = 0;
+            for (Mission mission : allMissions) {
+                totalCost += mission.getBudget();
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            if (totalCost > budget) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Budget exceeded");
+                alert.setHeaderText("The total cost of all missions has exceeded the budget");
+                alert.setContentText("Please review your budget and missions");
+                alert.showAndWait();
+            }
         }
     }
-
-    @FXML
-    public void addMission() {
-        String missionName = missionNameTextField.getText();
-        String budgetString = budgetTextField.getText();
-        boolean isBlacklisted = blacklistedCheckBox.isSelected();
-        Mission mission = new Mission(missionName, budgetString, isBlacklisted);
-        missionListView.getItems().add(mission);
-        missionListView.refresh();
-
-        missionNameTextField.clear();
-        budgetTextField.clear();
-        blacklistedCheckBox.setSelected(false);
-
-        //checkBudgetExceeded();
-    }
-
-    @FXML
-    public void deleteMission() {
-
-        Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
-        missionListView.getItems().remove(selectedMission);
-        missionListView.refresh();
-    }
-
-    private void checkBudgetExceeded() {
-        int budget = Integer.parseInt(budgetTextField.getText());
-        int totalCost = 0;
-        for (Mission mission : allMissions) {
-            totalCost += mission.getBudget();
-        }
-        if (totalCost > budget) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Budget exceeded");
-            alert.setHeaderText("The total cost of all missions has exceeded the budget");
-            alert.setContentText("Please review your budget and missions");
-            alert.showAndWait();
-        }
-    }
-}
