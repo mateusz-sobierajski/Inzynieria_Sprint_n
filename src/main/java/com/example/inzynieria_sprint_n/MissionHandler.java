@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Klasa MissionHandler która obsługuje ekran posiadające karty dodania misji i pokazania wybranych misji
+ */
 public class MissionHandler implements Initializable {
 
     protected final List<Mission> missionArrayList;
@@ -43,6 +46,11 @@ public class MissionHandler implements Initializable {
     private boolean isEditMode = false;
     private Mission selectedMission;
     private ObservableList<Mission> allMissions;
+
+    /**
+     * metoda handleEditBtn obsługuje przycisk "Edit" znajdujący się na ekranie dodania misji.
+     * @param event
+     */
 
     @FXML
     public void handleEditBtn(ActionEvent event) {
@@ -77,6 +85,10 @@ public class MissionHandler implements Initializable {
         //checkBudgetExceeded();
     }
 
+    /**
+     * metoda handleBudgetBtn obsługuje zdarzenie przycisku pokazującego budżet jako wykres kołowy
+     * @param event
+     */
     @FXML
     public void handleBudgetBtn(ActionEvent event) {
         try {
@@ -104,6 +116,12 @@ public class MissionHandler implements Initializable {
 
 
         missionListView.setCellFactory(listView -> new ListCell<Mission>() {
+
+            /**
+             * Funkcje updateItem pozwala na edytowanie pól danej instancji klasy @see Misja
+             * @param item
+             * @param empty
+             */
             @Override
             protected void updateItem(Mission item, boolean empty) {
                 super.updateItem(item, empty);
@@ -139,6 +157,11 @@ public class MissionHandler implements Initializable {
         }
     }
 
+    /**
+     * Funkcja MissionHandler otwiera plik csv z misjami i tworzy na ich podstawie listę obiektów @see Mission
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public MissionHandler() throws IOException, URISyntaxException {
 
         missionArrayList = new ArrayList<>();
@@ -166,6 +189,11 @@ public class MissionHandler implements Initializable {
 
     }
 
+    /**
+     * Funkcja addMission() pobiera dane z pól tekstowych aplikacji i na ich podstawie tworzy obiekt @see Mission
+     * @throws URISyntaxException
+     */
+
     @FXML
     public void addMission() throws URISyntaxException {
         String missionName = missionNameTextField.getText();
@@ -192,6 +220,10 @@ public class MissionHandler implements Initializable {
 
         //checkBudgetExceeded();
     }
+
+    /**
+     * Funkcja deleteMission() usuwa zaznaczoną misję z listy misji
+     */
 
     @FXML
     public void deleteMission() {
