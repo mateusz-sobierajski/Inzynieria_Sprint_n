@@ -13,6 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
@@ -164,42 +166,53 @@ public class MissionHandler implements Initializable {
 
     }
 
-        @FXML
-        public void addMission () {
-            String missionName = missionNameTextField.getText();
-            String budgetString = budgetTextField.getText();
-            boolean isBlacklisted = blacklistedCheckBox.isSelected();
-            Mission mission = new Mission(missionName, budgetString, isBlacklisted);
-            missionListView.getItems().add(mission);
-            missionListView.refresh();
+    @FXML
+    public void addMission() throws URISyntaxException {
+        String missionName = missionNameTextField.getText();
+        String budgetString = budgetTextField.getText();
+        boolean isBlacklisted = blacklistedCheckBox.isSelected();
+        Mission mission = new Mission(missionName, budgetString, isBlacklisted);
+        missionListView.getItems().add(mission);
+        missionListView.refresh();
 
-            missionNameTextField.clear();
-            budgetTextField.clear();
-            blacklistedCheckBox.setSelected(false);
+        missionNameTextField.clear();
+        budgetTextField.clear();
+        blacklistedCheckBox.setSelected(false);
 
-            //checkBudgetExceeded();
+        // Save the new mission to the csv file
+        URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
+        File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
+        try (FileWriter fileWriter = new FileWriter(fileMissionList, true);
+             CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT)) {
+            csvPrinter.printRecord(missionName, budgetString, isBlacklisted);
+            csvPrinter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        @FXML
-        public void deleteMission () {
+        //checkBudgetExceeded();
+    }
 
-            Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
-            missionListView.getItems().remove(selectedMission);
-            missionListView.refresh();
+    @FXML
+    public void deleteMission() {
+
+        Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
+        missionListView.getItems().remove(selectedMission);
+        missionListView.refresh();
+    }
+
+    private void checkBudgetExceeded() {
+        int budget = Integer.parseInt(budgetTextField.getText());
+        int totalCost = 0;
+        for (Mission mission : allMissions) {
+            totalCost += mission.getBudget();
         }
-
-        private void checkBudgetExceeded () {
-            int budget = Integer.parseInt(budgetTextField.getText());
-            int totalCost = 0;
-            for (Mission mission : allMissions) {
-                totalCost += mission.getBudget();
-            }
-            if (totalCost > budget) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Budget exceeded");
-                alert.setHeaderText("The total cost of all missions has exceeded the budget");
-                alert.setContentText("Please review your budget and missions");
-                alert.showAndWait();
-            }
+        if (totalCost > budget) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Budget exceeded");
+            alert.setHeaderText("The total cost of all missions has exceeded the budget");
+            alert.setContentText("Please review your budget and missions");
+            alert.showAndWait();
         }
     }
+}
