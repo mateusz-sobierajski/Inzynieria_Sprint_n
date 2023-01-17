@@ -75,4 +75,8 @@ public class BudgetManager {
             System.out.println(e.getMessage());
         }
     }
+    public File getBudgetFile() {
+        return budgetFile;
+    }
+
 }

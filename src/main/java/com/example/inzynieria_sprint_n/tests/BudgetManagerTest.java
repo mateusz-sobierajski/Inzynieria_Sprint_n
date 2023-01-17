@@ -1,21 +1,47 @@
 package com.example.inzynieria_sprint_n.tests;
 
+import static org.junit.Assert.assertEquals;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import com.example.inzynieria_sprint_n.BudgetManager;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-import static org.junit.Assert.assertEquals;
-
 public class BudgetManagerTest {
-    @Test
-    public void testSetCurrentAgencyBudget() throws IOException, URISyntaxException {
-        //BudgetManager budgetManager = new BudgetManager();
-        BudgetManager budgetManager = BudgetManager.getInstance();
-        long newBudget = 1000000;
-        budgetManager.setCurrentAgencyBudget(newBudget);
-        assertEquals(newBudget, budgetManager.getCurrentBudget());
+    private BudgetManager budgetManager;
+    private final long initialBudget = 1000000;
+    private final long updatedBudget = 2000000;
+
+    @Before
+    public void setUp() throws Exception {
+        // Create a test file with the initial budget
+        File budgetFile = File.createTempFile("budget_file", ".csv");
+        budgetFile.deleteOnExit();
+        try (FileWriter writer = new FileWriter(budgetFile)) {
+            writer.write(Long.toString(initialBudget));
+        }
+        budgetManager = BudgetManager.getInstance();
     }
 
+    @Test
+    public void testGetCurrentBudget() {
+        budgetManager.getBudgetFile().setWritable(true);
+        assertEquals(initialBudget, budgetManager.getCurrentBudget());
+    }
+
+    @Test
+    public void testSetCurrentAgencyBudget() throws IOException {
+        budgetManager.setCurrentAgencyBudget(updatedBudget);
+        assertEquals(updatedBudget, budgetManager.getCurrentBudget());
+    }
+
+    @Test(expected = IOException.class)
+    public void testSetCurrentAgencyBudget_noAccess() throws IOException {
+        // Make the budget file read-only
+        budgetManager.getBudgetFile().setReadOnly();
+        budgetManager.setCurrentAgencyBudget(updatedBudget);
+        budgetManager.getBudgetFile().setWritable(true);
+    }
 }

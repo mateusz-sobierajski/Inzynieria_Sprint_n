@@ -34,19 +34,20 @@ import java.util.ResourceBundle;
 public class MissionHandler implements Initializable {
 
     protected final List<Mission> missionArrayList;
+    @FXML
+    public ListView<Mission> missionChosenListViewId;
     protected List<Mission> chosenMissionArrayList;
+    @FXML
+    private ListView<Mission> missionListView;
     public Button deleteMissionBtnId;
     public Button addMissionBtnId;
-    public ListView<Mission> missionChosenListView;
     public Button budgetBtnId;
     public Button editMissionBtnId;
     public Button generateBtnId;
     @FXML
-    private ListView<Mission> missionListView;
+    private TextField missionNameTextField;
     @FXML
-    private ListView<Mission> chosenMissionListView;
-    @FXML
-    private TextField missionNameTextField, budgetTextField, priorityTextField;
+    private TextField budgetTextField;
     @FXML
     private CheckBox blacklistedCheckBox;
     private boolean isEditMode = false;
@@ -126,7 +127,6 @@ public class MissionHandler implements Initializable {
             }
         });
 
-
         missionListView.setCellFactory(listView -> new ListCell<Mission>() {
 
             /**
@@ -169,10 +169,10 @@ public class MissionHandler implements Initializable {
 
     /**
      * Funkcja MissionHandler otwiera plik csv z misjami i tworzy na ich podstawie listę obiektów @see Mission
-     *
      */
     public MissionHandler() {
 
+        chosenMissionArrayList = new ArrayList<>();
         missionArrayList = new ArrayList<>();
         try (Reader reader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
@@ -311,7 +311,30 @@ public class MissionHandler implements Initializable {
         this.chosenMissionArrayList = missionDistributor.chooseMissions(1000);
         System.out.println(chosenMissionArrayList);
         for (Mission mission : this.chosenMissionArrayList) {
-            //chosenMissionListView.getItems().add(mission);
+            missionChosenListViewId.getItems().add(mission);
         }
+        missionChosenListViewId.setCellFactory(missionListView1 -> new ListCell<Mission>() {
+            @Override
+            protected void updateItem(Mission item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item.getMissionName() + " | " + item.getBudget() + "$ | " + item.getPriority() + " | " + item.isBlacklisted());
+
+                    //setting colours due to priority
+                    int priority = item.getPriority();
+
+                    if (priority > 6) {
+                        setStyle("-fx-background-color: green;");
+                    } else if (priority > 3) {
+                        setStyle("-fx-background-color: yellow;");
+                    } else {
+                        setStyle("-fx-background-color: orange;");
+                    }
+                }
+
+            }
+        });
     }
 }
