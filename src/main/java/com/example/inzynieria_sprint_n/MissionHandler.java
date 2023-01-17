@@ -138,7 +138,7 @@ public class MissionHandler implements Initializable {
                 if (item == null || empty) {
                     setText(null);
                 } else {
-                    //TODO ZABAWA FORMATAMI ZEBY LADNIE WYGLADALO
+
                     setText(item.getMissionName() + " | " + item.getBudget() + "$ | " + item.getPriority() + " | " + item.isBlacklisted());
 
                     if (Objects.requireNonNull(item).isBlacklisted()) {
@@ -193,11 +193,10 @@ public class MissionHandler implements Initializable {
     /**
      * Funkcja addMission() pobiera dane z pól tekstowych aplikacji i na ich podstawie tworzy obiekt @see Mission
      *
-     * @throws URISyntaxException
      */
 
     @FXML
-    public void addMission() throws URISyntaxException, IOException {
+    public void addMission() throws IOException {
         String missionName = missionNameTextField.getText();
         String budgetString = budgetTextField.getText();
         boolean isBlacklisted = blacklistedCheckBox.isSelected();
@@ -227,13 +226,6 @@ public class MissionHandler implements Initializable {
         csvPrinter.flush();
         fileWriter.close();
 
-        Reader reader = new FileReader(fileMissionList);
-        CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withDelimiter(';').withIgnoreEmptyLines());
-        for (CSVRecord csvRecord : csvParser) {
-            System.out.println(csvRecord);
-        }
-
-
         //checkBudgetExceeded();
     }
 
@@ -242,16 +234,9 @@ public class MissionHandler implements Initializable {
      */
 
     @FXML
-    public void deleteMission() throws URISyntaxException {
+    public void deleteMission() {
 
         Mission selectedMission = this.missionListView.getSelectionModel().getSelectedItem();
-        System.out.println("TO DELTE: " + selectedMission);
-
-
-        // Remove the deleted mission from the csv file
-        //URL fileUrl = getClass().getResource("/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
-        //File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
-
         String fileMissionList = "src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv";
         try (Reader reader = new FileReader(fileMissionList);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
@@ -268,10 +253,6 @@ public class MissionHandler implements Initializable {
                 }
             }
 
-            for (Mission mission : remainingMissions) {
-                System.out.println(mission);
-            }
-
             // Write the remaining missions to the csv file
             try (FileWriter fileWriter = new FileWriter(fileMissionList);
                  CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'))) {
@@ -284,9 +265,6 @@ public class MissionHandler implements Initializable {
             e.printStackTrace();
         }
         missionListView.getItems().remove(selectedMission);
-        for (Mission m : missionListView.getItems()) {
-            System.out.print(m.getMissionName() + " ");
-        }
         missionListView.refresh();
     }
 
@@ -307,9 +285,7 @@ public class MissionHandler implements Initializable {
 
     public void setChosenMissions(MouseEvent mouseEvent) throws IOException {
         MissionDistributor missionDistributor = MissionDistributor.getInstance();
-        System.out.println("WYYRABNO");
         this.chosenMissionArrayList = missionDistributor.chooseMissions(1000);
-        System.out.println(chosenMissionArrayList);
         for (Mission mission : this.chosenMissionArrayList) {
             missionChosenListViewId.getItems().add(mission);
         }

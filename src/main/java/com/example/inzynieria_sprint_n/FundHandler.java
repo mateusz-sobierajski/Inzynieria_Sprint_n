@@ -1,16 +1,14 @@
 package com.example.inzynieria_sprint_n;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.chart.PieChart;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class FundHandler
 {
@@ -45,7 +43,7 @@ public class FundHandler
     }
 
     @FXML
-    private void printOutput() throws IOException, URISyntaxException {
+    private void printOutput() {
         outputText.setText(inputText.getText());
         pieChart.setStartAngle(0);
 
@@ -54,22 +52,16 @@ public class FundHandler
 
         System.out.println(floatInput);
 
-        //BudgetManager budgetMgr = new BudgetManager();
-        //budgetMgr.setCurrentAgencyBudget(120000000);
         budgetMgr = BudgetManager.getInstance();
-        /*
-        System.out.println(floatInput/budgetMgr.getCurrentBudget());
-        System.out.println((budgetMgr.getCurrentBudget()-floatInput)/(budgetMgr.getCurrentBudget()));
-        */
-        if(floatInput >= budgetMgr.getCurrentBudget()){
+        float budget = budgetMgr.getCurrentBudget();
+        if(floatInput >= budget){
             outputText.setText("Budżet misji przerasta budżet agencji!");
-            //System.out.println("Budżet misji przerasta budżet agencji!");
         }
 
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
-                        new PieChart.Data("Dodane Fudusze", (floatInput/budgetMgr.getCurrentBudget())),
-                        new PieChart.Data("Pozostałe fundusze agencji", ((budgetMgr.getCurrentBudget()-floatInput)/(budgetMgr.getCurrentBudget()))));
+                        new PieChart.Data("Dodane Fudusze", (floatInput/budget)),
+                        new PieChart.Data("Pozostałe fundusze agencji", (budget-floatInput/budget)));
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle("Podział funduszy");
         pieChart.setData(pieChartData);
