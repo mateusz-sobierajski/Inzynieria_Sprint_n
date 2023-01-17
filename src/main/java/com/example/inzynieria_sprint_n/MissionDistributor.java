@@ -14,7 +14,18 @@ import org.apache.commons.csv.CSVRecord;
 public class MissionDistributor {
 
     private static MissionDistributor missiondistributor;
-    public void chooseMissions() throws IOException {
+
+    private MissionDistributor() {
+    }
+
+    public static MissionDistributor getInstance() {
+        if (missiondistributor == null) {
+            missiondistributor = new MissionDistributor();
+        }
+        return missiondistributor;
+    }
+
+    public List<Mission> chooseMissions(int capacity) throws IOException {
         // Wczytanie pliku CSV
         FileReader fileReader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
         CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.withDelimiter(';').withIgnoreEmptyLines(true));
@@ -30,7 +41,7 @@ public class MissionDistributor {
         }
 
         // Użycie algorytmu plecakowego do wyboru odpowiednich produktów
-        int capacity = 500; // zmienić w zaleznosci od budzetu
+         // zmienić w zaleznosci od budzetu
         List<Mission> selectedProducts = knapsack(products, capacity);
 
         /*
@@ -51,6 +62,8 @@ public class MissionDistributor {
             csvPrinter.printRecord(mission.getMissionName(), mission.getBudget(), mission.getPriority(), mission.isBlacklisted());
         }
         csvPrinter.close();
+
+        return selectedProducts;
     }
 
     public static List<Mission> knapsack(List<Mission> products, int capacity) {

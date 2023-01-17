@@ -1,43 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
-<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-           prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.example.inzynieria_sprint_n.MissionHandler">
+
+<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.inzynieria_sprint_n.MissionHandler">
 
     <panes>
         <TitledPane animated="false" prefHeight="375.0" prefWidth="1500.0" text="Lista wszystkich misji">
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="349.0" prefWidth="671.0">
                     <children>
-                        <ListView fx:id="missionListView" layoutX="14.0" layoutY="55.0" prefWidth="363.0"
-                                  VBox.vgrow="ALWAYS"/>
-                        <Button id="deleteMissionBtnId" fx:id="deleteMissionBtnId" layoutX="443.0" layoutY="248.0"
-                                mnemonicParsing="false" onAction="#deleteMission" text="Usuń misję"/>
-                        <Button id="addMissionBtnId" fx:id="addMissionBtnId" layoutX="393.0" layoutY="175.0"
-                                mnemonicParsing="false" onAction="#addMission" text="Dodaj misję"/>
-                        <Text layoutX="387.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Nazwa misji: "/>
-                        <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Mission, budget, priority and accessibility"/>
-                        <TextField fx:id="missionNameTextField" layoutX="456.0" layoutY="51.0" prefHeight="25.0"
-                                   prefWidth="129.0"/>
-                        <TextField fx:id="budgetTextField" layoutX="456.0" layoutY="83.0" prefHeight="25.0"
-                                   prefWidth="129.0"/>
-                        <Text layoutX="401.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Budżet:"/>
-                        <Text layoutX="420.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Dodawanie nowej misji"/>
-                        <Text layoutX="441.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Usuwanie misji"/>
-                        <CheckBox fx:id="blacklistedCheckBox" layoutX="456.0" layoutY="118.0" mnemonicParsing="false"
-                                  text="blacklisted"/>
-                        <Button fx:id="editMissionBtnId" layoutX="502.0" layoutY="175.0" mnemonicParsing="false"
-                                onAction="#handleEditBtn" text="Włącz edytowanie misji"/>
-                        <Button fx:id="budgetBtnId" layoutX="414.0" layoutY="310.0" mnemonicParsing="false"
-                                onAction="#handleBudgetBtn" text="Pokaż wykres budżetu"/>
+                        <ListView fx:id="missionListView" layoutX="14.0" layoutY="55.0" prefWidth="363.0" VBox.vgrow="ALWAYS" />
+                        <Button id="deleteMissionBtnId" fx:id="deleteMissionBtnId" layoutX="443.0" layoutY="248.0" mnemonicParsing="false" onAction="#deleteMission" text="Usuń misję" />
+                        <Button id="addMissionBtnId" fx:id="addMissionBtnId" layoutX="393.0" layoutY="175.0" mnemonicParsing="false" onAction="#addMission" text="Dodaj misję" />
+                        <Text layoutX="387.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwa misji: " />
+                        <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mission, budget, priority and accessibility" />
+                        <TextField fx:id="missionNameTextField" layoutX="456.0" layoutY="51.0" prefHeight="25.0" prefWidth="129.0" />
+                        <TextField fx:id="budgetTextField" layoutX="456.0" layoutY="83.0" prefHeight="25.0" prefWidth="129.0" />
+                        <Text layoutX="401.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Budżet:" />
+                        <Text layoutX="420.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dodawanie nowej misji" />
+                        <Text layoutX="441.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuwanie misji" />
+                        <CheckBox fx:id="blacklistedCheckBox" layoutX="456.0" layoutY="118.0" mnemonicParsing="false" text="blacklisted" />
+                        <Button fx:id="editMissionBtnId" layoutX="502.0" layoutY="175.0" mnemonicParsing="false" onAction="#handleEditBtn" text="Włącz edytowanie misji" />
+                        <Button fx:id="budgetBtnId" layoutX="414.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleBudgetBtn" text="Pokaż wykres budżetu" />
                     </children>
                 </AnchorPane>
             </content>
@@ -46,8 +35,8 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                        <ListView fx:id="missionChosenListView" layoutX="14.0" layoutY="14.0" prefHeight="293.0"
-                                  prefWidth="378.0"/>
+                        <ListView fx:id="missionChosenListView" layoutX="14.0" layoutY="14.0" prefHeight="293.0" prefWidth="378.0" />
+                  <Button fx:id="generateBtnId" layoutX="413.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#setChosenMissions" prefHeight="48.0" prefWidth="171.0" text="Generate" />
                     </children>
                 </AnchorPane>
             </content>

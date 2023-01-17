@@ -9,23 +9,24 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 /**
  * Klasa MissionHandler która obsługuje ekran posiadające karty dodania misji i pokazania wybranych misji
@@ -33,13 +34,17 @@ import java.util.stream.Collectors;
 public class MissionHandler implements Initializable {
 
     protected final List<Mission> missionArrayList;
+    protected List<Mission> chosenMissionArrayList;
     public Button deleteMissionBtnId;
     public Button addMissionBtnId;
     public ListView<Mission> missionChosenListView;
     public Button budgetBtnId;
     public Button editMissionBtnId;
+    public Button generateBtnId;
     @FXML
     private ListView<Mission> missionListView;
+    @FXML
+    private ListView<Mission> chosenMissionListView;
     @FXML
     private TextField missionNameTextField, budgetTextField, priorityTextField;
     @FXML
@@ -53,7 +58,7 @@ public class MissionHandler implements Initializable {
      */
 
     @FXML
-    public void handleEditBtn() throws URISyntaxException {
+    public void handleEditBtn() {
         /*
         Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
         if (selectedMission != null) {
@@ -165,9 +170,8 @@ public class MissionHandler implements Initializable {
     /**
      * Funkcja MissionHandler otwiera plik csv z misjami i tworzy na ich podstawie listę obiektów @see Mission
      *
-     * @throws IOException
      */
-    public MissionHandler() throws IOException {
+    public MissionHandler() {
 
         missionArrayList = new ArrayList<>();
         try (Reader reader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
@@ -180,8 +184,7 @@ public class MissionHandler implements Initializable {
                 csvParser.close();
                 reader.close();
             }
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
@@ -231,7 +234,6 @@ public class MissionHandler implements Initializable {
         }
 
 
-
         //checkBudgetExceeded();
     }
 
@@ -266,7 +268,7 @@ public class MissionHandler implements Initializable {
                 }
             }
 
-            for( Mission mission: remainingMissions){
+            for (Mission mission : remainingMissions) {
                 System.out.println(mission);
             }
 
@@ -282,7 +284,7 @@ public class MissionHandler implements Initializable {
             e.printStackTrace();
         }
         missionListView.getItems().remove(selectedMission);
-        for(Mission m : missionListView.getItems()){
+        for (Mission m : missionListView.getItems()) {
             System.out.print(m.getMissionName() + " ");
         }
         missionListView.refresh();
@@ -300,6 +302,16 @@ public class MissionHandler implements Initializable {
             alert.setHeaderText("The total cost of all missions has exceeded the budget");
             alert.setContentText("Please review your budget and missions");
             alert.showAndWait();
+        }
+    }
+
+    public void setChosenMissions(MouseEvent mouseEvent) throws IOException {
+        MissionDistributor missionDistributor = MissionDistributor.getInstance();
+        System.out.println("WYYRABNO");
+        this.chosenMissionArrayList = missionDistributor.chooseMissions(1000);
+        System.out.println(chosenMissionArrayList);
+        for (Mission mission : this.chosenMissionArrayList) {
+            //chosenMissionListView.getItems().add(mission);
         }
     }
 }

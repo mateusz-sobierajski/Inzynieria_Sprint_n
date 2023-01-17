@@ -61,7 +61,7 @@ public class BudgetManager {
     private BudgetManager() throws IOException {
 
 
-        String filePath = "C:\\Users\\mateu\\IdeaProjects\\Inzynieria_Sprint_n\\src\\main\\java\\com\\example\\inzynieria_sprint_n\\csv\\budget_file.csv";
+        String filePath = "src/main/java/com/example/inzynieria_sprint_n/csv/budget_file.csv";
         File file = new File(filePath);
         this.budgetFile = file;
 
