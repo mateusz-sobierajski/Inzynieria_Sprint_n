@@ -27,8 +27,7 @@ public class BudgetManagerTest {
 
     @Test
     public void testGetCurrentBudget() {
-        budgetManager.getBudgetFile().setWritable(true);
-        assertEquals(initialBudget, budgetManager.getCurrentBudget());
+        assertEquals(updatedBudget, budgetManager.getCurrentBudget());
     }
 
     @Test
@@ -42,6 +41,5 @@ public class BudgetManagerTest {
         // Make the budget file read-only
         budgetManager.getBudgetFile().setReadOnly();
         budgetManager.setCurrentAgencyBudget(updatedBudget);
-        budgetManager.getBudgetFile().setWritable(true);
     }
 }

@@ -45,7 +45,7 @@ public class BudgetManager {
      */
     public void setCurrentAgencyBudget(long newBudget) throws IOException {
         currentAgencyBudget = newBudget;
-        if (!budgetFile.canWrite()) {
+        if (!budgetFile.canRead() || !budgetFile.canWrite()) {
             throw new IOException("Brak dostępu do pliku z budżetem.");
         }
         try (FileWriter writer = new FileWriter(budgetFile)) {
