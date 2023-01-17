@@ -11,7 +11,6 @@ import org.junit.Test;
 
 public class BudgetManagerTest {
     private BudgetManager budgetManager;
-    private final long initialBudget = 1000000;
     private final long updatedBudget = 2000000;
 
     @Before
@@ -20,6 +19,7 @@ public class BudgetManagerTest {
         File budgetFile = File.createTempFile("budget_file", ".csv");
         budgetFile.deleteOnExit();
         try (FileWriter writer = new FileWriter(budgetFile)) {
+            long initialBudget = 1000000;
             writer.write(Long.toString(initialBudget));
         }
         budgetManager = BudgetManager.getInstance();
