@@ -45,8 +45,8 @@ public class HelloApplication extends Application {
         Button loginButton = (Button) root.lookup("#loginButton");
 
         loginButton.setOnAction(event -> {
-            String username = "mati";//usernameField.getText();
-            String password = "69"; //passwordField.getText();
+            String username = usernameField.getText();
+            String password = passwordField.getText();
 
             // Perform validation on the username and password
             if (username.isEmpty() || password.isEmpty()) {
