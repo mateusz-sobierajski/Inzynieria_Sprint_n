@@ -11,7 +11,7 @@ public class Mission {
     public Mission() {
         this.missionName = "Mission Name";
         this.budget = 0;
-        this.priority = -1;
+        this.priority = 0;
         isBlacklisted = false;
     }
 
@@ -25,7 +25,7 @@ public class Mission {
     public Mission(String missionName, String budgetString) {
         this.missionName = missionName;
         this.budget = Long.parseLong(budgetString);
-        this.priority = Integer.parseInt(String.valueOf(priority));
+        this.priority = 0;
         this.isBlacklisted = false;
     }
 
@@ -39,6 +39,7 @@ public class Mission {
     public Mission(String missionName, String budgetString, boolean isBlacklisted) {
         this.missionName = missionName;
         this.budget = Long.parseLong(budgetString);
+        this.priority = 0;
         this.isBlacklisted = isBlacklisted;
     }
 
@@ -60,7 +61,7 @@ public class Mission {
 
     @Override
     public java.lang.String toString() {
-        return this.missionName + ";" + this.budget + ";" + this.priority + ";" + this.isBlacklisted + "\n";
+        return this.missionName + ";" + this.budget + ";" + this.priority + ";" + this.isBlacklisted;
     }
 
     public void setMissionName(String missionName) {

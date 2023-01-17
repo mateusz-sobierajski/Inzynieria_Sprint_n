@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Klasa MissionHandler która obsługuje ekran posiadające karty dodania misji i pokazania wybranych misji
@@ -49,44 +50,50 @@ public class MissionHandler implements Initializable {
 
     /**
      * metoda handleEditBtn obsługuje przycisk "Edit" znajdujący się na ekranie dodania misji.
-     * @param event
      */
 
     @FXML
-    public void handleEditBtn(ActionEvent event) {
+    public void handleEditBtn() throws URISyntaxException {
+        /*
+        Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
+        if (selectedMission != null) {
+            String newMissionName = missionNameTextField.getText();
+            String newBudgetString = budgetTextField.getText();
+            boolean newIsBlacklisted = blacklistedCheckBox.isSelected();
 
-        //do wyjebania to jest
-        if (!isEditMode) {
-            editMissionBtnId.setText("Tryb edycji");
-            selectedMission = missionListView.getSelectionModel().getSelectedItem();
-            if (selectedMission != null) {
-                missionNameTextField.setText(selectedMission.getMissionName());
-                budgetTextField.setText(String.valueOf(selectedMission.getBudget()));
-                blacklistedCheckBox.setSelected(selectedMission.isBlacklisted());
-                missionNameTextField.setEditable(true);
-                budgetTextField.setEditable(true);
-                blacklistedCheckBox.setDisable(false);
-                isEditMode = true;
-            }
-        } else {
-            editMissionBtnId.setText("Zapisz edycje");
-            selectedMission.setMissionName(missionNameTextField.getText());
-            selectedMission.setBudget(Long.parseLong(budgetTextField.getText()));
-            selectedMission.setBlacklisted(blacklistedCheckBox.isSelected());
+            selectedMission.setMissionName(newMissionName);
+            selectedMission.setBudget(Long.parseLong(newBudgetString));
+            selectedMission.setBlacklisted(newIsBlacklisted);
             missionListView.refresh();
-            missionNameTextField.clear();
-            budgetTextField.clear();
-            blacklistedCheckBox.setSelected(false);
-            missionNameTextField.setEditable(false);
-            budgetTextField.setEditable(false);
-            isEditMode = false;
-            editMissionBtnId.setText("Tryb edycji");
+
+            // Update the csv file with the edited mission
+            URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
+            File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
+            try (Reader reader = new FileReader(fileMissionList);
+                 CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT)) {
+                List<CSVRecord> csvRecords = csvParser.getRecords();
+                for (int i = 0; i < csvRecords.size(); i++) {
+                    CSVRecord record = csvRecords.get(i);
+                    if (record.get(0).equals(selectedMission.getMissionName())) {
+                        csvRecords.set(i, CSVFormat.DEFAULT.parse(reader).getRecords().get(0));
+                        break;
+                    }
+                }
+                try (FileWriter fileWriter = new FileWriter(fileMissionList);
+                     CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT)) {
+                    csvPrinter.printRecords(csvRecords);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        //checkBudgetExceeded();
+
+         */
     }
 
     /**
      * metoda handleBudgetBtn obsługuje zdarzenie przycisku pokazującego budżet jako wykres kołowy
+     *
      * @param event
      */
     @FXML
@@ -119,8 +126,6 @@ public class MissionHandler implements Initializable {
 
             /**
              * Funkcje updateItem pozwala na edytowanie pól danej instancji klasy @see Misja
-             * @param item
-             * @param empty
              */
             @Override
             protected void updateItem(Mission item, boolean empty) {
@@ -133,7 +138,7 @@ public class MissionHandler implements Initializable {
 
                     if (Objects.requireNonNull(item).isBlacklisted()) {
                         setTextFill(Color.RED);
-                    }else{
+                    } else {
                         setTextFill(Color.BLACK);
                     }
 
@@ -159,6 +164,7 @@ public class MissionHandler implements Initializable {
 
     /**
      * Funkcja MissionHandler otwiera plik csv z misjami i tworzy na ich podstawie listę obiektów @see Mission
+     *
      * @throws IOException
      * @throws URISyntaxException
      */
@@ -169,39 +175,32 @@ public class MissionHandler implements Initializable {
         URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
 
-        if (!fileMissionList.exists()) {
-            if (fileMissionList.createNewFile()) {
-                System.out.println("Plik stworzony prawidłowo");
+        try (Reader reader = new FileReader(fileMissionList);
+             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
+            {
+                for (CSVRecord record : csvParser.getRecords()) {
+                    System.out.println(record);
+                    missionArrayList.add(new Mission(record.get(0), record.get(1), record.get(2), Boolean.parseBoolean(record.get(3))));
+                }
+                csvParser.close();
+                reader.close();
             }
-        } else {
-            System.out.println("Plik już istnieje!");
         }
-        if (!fileMissionList.canRead()) {
-            throw new IOException("Brak dostępu do pliku z listą misji.");
-        }
-        String splitBy = ";";
-        Reader reader = new FileReader(fileMissionList);
-        CSVFormat format = CSVFormat.DEFAULT.withDelimiter(splitBy.charAt(0));
-        Iterable<CSVRecord> records = format.parse(reader);
-
-
-        for (CSVRecord record : records)
-            if (!record.get(0).equals(""))
-                missionArrayList.add(new Mission(record.get(0), record.get(1), record.get(2), Boolean.parseBoolean(record.get(3))));
-
 
     }
 
     /**
      * Funkcja addMission() pobiera dane z pól tekstowych aplikacji i na ich podstawie tworzy obiekt @see Mission
+     *
      * @throws URISyntaxException
      */
 
     @FXML
-    public void addMission() throws URISyntaxException {
+    public void addMission() throws URISyntaxException, IOException {
         String missionName = missionNameTextField.getText();
         String budgetString = budgetTextField.getText();
         boolean isBlacklisted = blacklistedCheckBox.isSelected();
+
         Mission mission = new Mission(missionName, budgetString, isBlacklisted);
         missionListView.getItems().add(mission);
         missionListView.refresh();
@@ -210,16 +209,32 @@ public class MissionHandler implements Initializable {
         budgetTextField.clear();
         blacklistedCheckBox.setSelected(false);
 
+        System.out.println(mission);
+
         // Save the new mission to the csv file
         URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
-        try (FileWriter fileWriter = new FileWriter(fileMissionList, true);
-             CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT)) {
-            csvPrinter.printRecord(missionName, budgetString, isBlacklisted);
-            csvPrinter.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        FileWriter fileWriter = new FileWriter(fileMissionList, true);
+        //CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).printer());
+        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'));
+        csvPrinter.print(missionName);
+        csvPrinter.print(budgetString);
+        csvPrinter.print(mission.getPriority());
+        csvPrinter.print(isBlacklisted);
+        csvPrinter.println();
+        csvPrinter.flush();
+        //csvPrinter.printRecord(mission.toString());
+        //csvPrinter.printRecord(missionName, budgetString, mission.getPriority(), isBlacklisted);
+        fileWriter.close();
+
+        Reader reader = new FileReader(fileMissionList);
+        CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withDelimiter(';').withIgnoreEmptyLines());
+        for (CSVRecord csvRecord : csvParser) {
+            System.out.println(csvRecord);
         }
+
+
 
         //checkBudgetExceeded();
     }
@@ -229,10 +244,56 @@ public class MissionHandler implements Initializable {
      */
 
     @FXML
-    public void deleteMission() {
+    public void deleteMission() throws URISyntaxException {
 
-        Mission selectedMission = missionListView.getSelectionModel().getSelectedItem();
+        Mission selectedMission = this.missionListView.getSelectionModel().getSelectedItem();
+        System.out.println("TO DELTE: " + selectedMission);
+
+
+        // Remove the deleted mission from the csv file
+        URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
+        File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
+        try (Reader reader = new FileReader(fileMissionList);
+             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
+            // Create a new list to store the remaining missions
+            List<Mission> remainingMissions = new ArrayList<>();
+            for (CSVRecord csvRecord : csvParser) {
+                String missionName = csvRecord.get(0);
+                String budgetString = csvRecord.get(1);
+                String priority = csvRecord.get(2);
+                boolean isBlacklisted = Boolean.parseBoolean(csvRecord.get(3));
+                Mission mission = new Mission(missionName, budgetString, priority, isBlacklisted);
+                if (!mission.getMissionName().equals(selectedMission.getMissionName())) {
+                    remainingMissions.add(mission);
+                }
+            }
+
+            for( Mission mission: remainingMissions){
+                System.out.println(mission);
+            }
+
+            // Write the remaining missions to the csv file
+            try (FileWriter fileWriter = new FileWriter(fileMissionList);
+                 CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'))) {
+                for (Mission mission : remainingMissions) {
+                    List<String> myList = new ArrayList<>();
+                    myList.add(mission.getMissionName());
+                    myList.add(String.valueOf(mission.getBudget()));
+                    myList.add(String.valueOf(mission.getPriority()));
+                    myList.add(String.valueOf(mission.isBlacklisted()));
+                    List<String[]> myListSplitted = myList.stream().map(row -> row.split(";")).collect(Collectors.toList());
+                    csvPrinter.printRecords(myListSplitted);
+                    //csvPrinter.printRecord(mission.getMissionName(), mission.getBudget(), mission.getPriority(), mission.isBlacklisted());
+                }
+                csvPrinter.close(true);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         missionListView.getItems().remove(selectedMission);
+        for(Mission m : missionListView.getItems()){
+            System.out.print(m.getMissionName() + " ");
+        }
         missionListView.refresh();
     }
 
