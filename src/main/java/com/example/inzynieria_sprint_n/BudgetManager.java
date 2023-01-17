@@ -63,7 +63,7 @@ public class BudgetManager {
      */
     private BudgetManager() throws IOException, URISyntaxException {
 
-        URL fileUrl = getClass().getResource("/csv/budget_file.csv");
+        URL fileUrl = getClass().getResource("/com/example/inzynieria_sprint_n/csv/budget_file.csv");
         File file = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
         this.budgetFile = file;
 

@@ -172,7 +172,7 @@ public class MissionHandler implements Initializable {
 
         missionArrayList = new ArrayList<>();
 
-        URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
+        URL fileUrl = getClass().getResource("/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
 
         try (Reader reader = new FileReader(fileMissionList);
@@ -212,7 +212,7 @@ public class MissionHandler implements Initializable {
         System.out.println(mission);
 
         // Save the new mission to the csv file
-        URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
+        URL fileUrl = getClass().getResource("/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
 
         FileWriter fileWriter = new FileWriter(fileMissionList, true);
@@ -251,7 +251,7 @@ public class MissionHandler implements Initializable {
 
 
         // Remove the deleted mission from the csv file
-        URL fileUrl = getClass().getResource("/csv/proposed_mission_list.csv");
+        URL fileUrl = getClass().getResource("/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
         File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
         try (Reader reader = new FileReader(fileMissionList);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {

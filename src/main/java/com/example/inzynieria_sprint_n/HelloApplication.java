@@ -55,7 +55,7 @@ public class HelloApplication extends Application {
             } else {
                 // Perform the login action
                 try {
-                    URL fileUrl = getClass().getResource("/csv/workers.csv");
+                    URL fileUrl = getClass().getResource("workers.csv");
                     File file = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
                     BufferedReader br = new BufferedReader(new FileReader(file));
 
