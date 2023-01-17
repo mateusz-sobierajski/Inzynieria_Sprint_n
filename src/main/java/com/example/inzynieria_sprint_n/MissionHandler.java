@@ -166,16 +166,11 @@ public class MissionHandler implements Initializable {
      * Funkcja MissionHandler otwiera plik csv z misjami i tworzy na ich podstawie listę obiektów @see Mission
      *
      * @throws IOException
-     * @throws URISyntaxException
      */
-    public MissionHandler() throws IOException, URISyntaxException {
+    public MissionHandler() throws IOException {
 
         missionArrayList = new ArrayList<>();
-
-        URL fileUrl = getClass().getResource("/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
-        File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
-
-        try (Reader reader = new FileReader(fileMissionList);
+        try (Reader reader = new FileReader("C:\\Users\\mateu\\IdeaProjects\\Inzynieria_Sprint_n\\src\\main\\java\\com\\example\\inzynieria_sprint_n\\proposed_mission_list.csv");
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
             {
                 for (CSVRecord record : csvParser.getRecords()) {
@@ -185,6 +180,9 @@ public class MissionHandler implements Initializable {
                 csvParser.close();
                 reader.close();
             }
+        }
+        catch (IOException e){
+            System.out.println(e.getMessage());
         }
 
     }
@@ -212,20 +210,18 @@ public class MissionHandler implements Initializable {
         System.out.println(mission);
 
         // Save the new mission to the csv file
-        URL fileUrl = getClass().getResource("/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
-        File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
 
+        String fileMissionList = "C:\\Users\\mateu\\IdeaProjects\\Inzynieria_Sprint_n\\src\\main\\java\\com\\example\\inzynieria_sprint_n\\proposed_mission_list.csv";
         FileWriter fileWriter = new FileWriter(fileMissionList, true);
-        //CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).printer());
         CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'));
+
         csvPrinter.print(missionName);
         csvPrinter.print(budgetString);
         csvPrinter.print(mission.getPriority());
         csvPrinter.print(isBlacklisted);
         csvPrinter.println();
+
         csvPrinter.flush();
-        //csvPrinter.printRecord(mission.toString());
-        //csvPrinter.printRecord(missionName, budgetString, mission.getPriority(), isBlacklisted);
         fileWriter.close();
 
         Reader reader = new FileReader(fileMissionList);
@@ -251,8 +247,10 @@ public class MissionHandler implements Initializable {
 
 
         // Remove the deleted mission from the csv file
-        URL fileUrl = getClass().getResource("/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
-        File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
+        //URL fileUrl = getClass().getResource("/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
+        //File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
+
+        String fileMissionList = "C:\\Users\\mateu\\IdeaProjects\\Inzynieria_Sprint_n\\src\\main\\java\\com\\example\\inzynieria_sprint_n\\proposed_mission_list.csv";
         try (Reader reader = new FileReader(fileMissionList);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
             // Create a new list to store the remaining missions
@@ -276,14 +274,7 @@ public class MissionHandler implements Initializable {
             try (FileWriter fileWriter = new FileWriter(fileMissionList);
                  CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'))) {
                 for (Mission mission : remainingMissions) {
-                    List<String> myList = new ArrayList<>();
-                    myList.add(mission.getMissionName());
-                    myList.add(String.valueOf(mission.getBudget()));
-                    myList.add(String.valueOf(mission.getPriority()));
-                    myList.add(String.valueOf(mission.isBlacklisted()));
-                    List<String[]> myListSplitted = myList.stream().map(row -> row.split(";")).collect(Collectors.toList());
-                    csvPrinter.printRecords(myListSplitted);
-                    //csvPrinter.printRecord(mission.getMissionName(), mission.getBudget(), mission.getPriority(), mission.isBlacklisted());
+                    csvPrinter.printRecord(mission.getMissionName(), mission.getBudget(), mission.getPriority(), mission.isBlacklisted());
                 }
                 csvPrinter.close(true);
             }
