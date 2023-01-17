@@ -54,8 +54,9 @@ public class FundHandler
 
         System.out.println(floatInput);
 
-        BudgetManager budgetMgr = new BudgetManager();
-        budgetMgr.setCurrentAgencyBudget(120000000);
+        //BudgetManager budgetMgr = new BudgetManager();
+        //budgetMgr.setCurrentAgencyBudget(120000000);
+        budgetMgr = BudgetManager.getInstance();
         /*
         System.out.println(floatInput/budgetMgr.getCurrentBudget());
         System.out.println((budgetMgr.getCurrentBudget()-floatInput)/(budgetMgr.getCurrentBudget()));

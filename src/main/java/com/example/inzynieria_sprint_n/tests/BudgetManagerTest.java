@@ -11,7 +11,8 @@ import static org.junit.Assert.assertEquals;
 public class BudgetManagerTest {
     @Test
     public void testSetCurrentAgencyBudget() throws IOException, URISyntaxException {
-        BudgetManager budgetManager = new BudgetManager();
+        //BudgetManager budgetManager = new BudgetManager();
+        BudgetManager budgetManager = BudgetManager.getInstance();
         long newBudget = 1000000;
         budgetManager.setCurrentAgencyBudget(newBudget);
         assertEquals(newBudget, budgetManager.getCurrentBudget());
