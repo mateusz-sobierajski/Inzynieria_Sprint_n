@@ -170,7 +170,7 @@ public class MissionHandler implements Initializable {
     public MissionHandler() throws IOException {
 
         missionArrayList = new ArrayList<>();
-        try (Reader reader = new FileReader("C:\\Users\\mateu\\IdeaProjects\\Inzynieria_Sprint_n\\src\\main\\java\\com\\example\\inzynieria_sprint_n\\proposed_mission_list.csv");
+        try (Reader reader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
             {
                 for (CSVRecord record : csvParser.getRecords()) {
@@ -211,7 +211,7 @@ public class MissionHandler implements Initializable {
 
         // Save the new mission to the csv file
 
-        String fileMissionList = "C:\\Users\\mateu\\IdeaProjects\\Inzynieria_Sprint_n\\src\\main\\java\\com\\example\\inzynieria_sprint_n\\proposed_mission_list.csv";
+        String fileMissionList = "src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv";
         FileWriter fileWriter = new FileWriter(fileMissionList, true);
         CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'));
 
@@ -250,7 +250,7 @@ public class MissionHandler implements Initializable {
         //URL fileUrl = getClass().getResource("/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
         //File fileMissionList = Paths.get(Objects.requireNonNull(fileUrl).toURI()).toFile();
 
-        String fileMissionList = "C:\\Users\\mateu\\IdeaProjects\\Inzynieria_Sprint_n\\src\\main\\java\\com\\example\\inzynieria_sprint_n\\proposed_mission_list.csv";
+        String fileMissionList = "src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv";
         try (Reader reader = new FileReader(fileMissionList);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
             // Create a new list to store the remaining missions
