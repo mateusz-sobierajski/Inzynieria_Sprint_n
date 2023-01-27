@@ -25,9 +25,10 @@ public class HelloApplication extends Application {
     /**
      * Funkcja start() przygotowuje i otwiera ekran logowania Login_screen
      * następnie obsługuje logowanie i po podaniu prawidłowych danych przekazuje kontrolę ekranowi zarządzania misjami
-     * @see MissionHandler
+     *
      * @param stage
      * @throws IOException
+     * @see MissionHandler
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -88,10 +89,17 @@ public class HelloApplication extends Application {
 
     /**
      * Jedynym celem funkcji main() jest wywołanie komendy launch(), która powoduje otwarcie aplikacji FXML
+     *
      * @param args
      */
     public static void main(String[] args) {
         launch();
     }
+//  TODO  hashowanie haseł
+//   TODO synchronizacja metod so singletonu
+//   TODO wzorce strukturalne i czynnościowe
+//   TODO usuwanie misji na listview po wykonaniu algorytmu
+//   TODO chosen mission listview po aktualizacji nie kasuje starych danych xd
+
 }
 
