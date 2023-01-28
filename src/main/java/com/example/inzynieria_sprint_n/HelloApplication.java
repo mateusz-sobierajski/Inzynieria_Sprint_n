@@ -1,6 +1,5 @@
 package com.example.inzynieria_sprint_n;
 
-import com.example.inzynieria_sprint_n.password.PasswordUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,15 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -51,33 +43,8 @@ public class HelloApplication extends Application {
             if (username.isEmpty() || password.isEmpty()) {
                 System.out.println("Please enter a username and password.");
             } else {
-                try {
-                    Reader reader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/password/workers.csv");
-                    CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
-                    List<CSVRecord> csvRecords = csvParser.getRecords();
-
-                    boolean matchFound = false;
-                    for (CSVRecord record : csvRecords) {
-                        String csvUsername = record.get(0);
-                        String csvHashedPassword = record.get(1);
-                        if (username.equals(csvUsername) && PasswordUtils.verifyPassword(password, csvHashedPassword)) {
-                            matchFound = true;
-                            System.out.println("Login successful.");
-                            try {
-                                Parent missionMgmt = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Mission_mgmt.fxml")));
-                                stage.setScene(new Scene(missionMgmt, 800, 600));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            break;
-                        }
-                    }
-                    if (!matchFound) {
-                        System.out.println("Invalid login credentials.");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                LoginHandler loginHandler = new LoginHandler();
+                loginHandler.handleLogin(username, password, stage);
             }
         });
     }
