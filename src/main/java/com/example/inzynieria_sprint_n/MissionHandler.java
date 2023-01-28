@@ -178,7 +178,6 @@ public class MissionHandler implements Initializable {
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
             {
                 for (CSVRecord record : csvParser.getRecords()) {
-                    System.out.println(record);
                     missionArrayList.add(new Mission(record.get(0), record.get(1), record.get(2), Boolean.parseBoolean(record.get(3))));
                 }
                 csvParser.close();

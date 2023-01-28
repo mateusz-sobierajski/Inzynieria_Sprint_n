@@ -9,10 +9,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -47,14 +52,15 @@ public class HelloApplication extends Application {
                 System.out.println("Please enter a username and password.");
             } else {
                 try {
-                    FileReader fileReader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/password/workers.csv");
-                    BufferedReader br = new BufferedReader(fileReader);
+                    Reader reader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/password/workers.csv");
+                    CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+                    List<CSVRecord> csvRecords = csvParser.getRecords();
 
-                    String line;
                     boolean matchFound = false;
-                    while ((line = br.readLine()) != null) {
-                        String[] userData = line.split(";");
-                        if (username.equals(userData[0]) && PasswordUtils.verifyPassword(password, userData[1])) {
+                    for (CSVRecord record : csvRecords) {
+                        String csvUsername = record.get(0);
+                        String csvHashedPassword = record.get(1);
+                        if (username.equals(csvUsername) && PasswordUtils.verifyPassword(password, csvHashedPassword)) {
                             matchFound = true;
                             System.out.println("Login successful.");
                             try {
@@ -88,7 +94,6 @@ public class HelloApplication extends Application {
 //   TODO synchronizacja metod so singletonu
 //   TODO wzorce strukturalne i czynnościowe
 //   TODO usuwanie misji na listview po wykonaniu algorytmu
-//   TODO chosen mission listview po aktualizacji nie kasuje starych danych xd
 
 }
 
