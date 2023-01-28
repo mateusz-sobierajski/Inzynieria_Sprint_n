@@ -17,4 +17,6 @@ module com.example.inzynieria_sprint_n {
     exports com.example.inzynieria_sprint_n;
     exports com.example.inzynieria_sprint_n.tests;
     opens com.example.inzynieria_sprint_n.tests to javafx.fxml;
+    exports com.example.inzynieria_sprint_n.password;
+    opens com.example.inzynieria_sprint_n.password to javafx.fxml;
 }
