@@ -286,6 +286,7 @@ public class MissionHandler implements Initializable {
     public void setChosenMissions(MouseEvent mouseEvent) throws IOException {
         MissionDistributor missionDistributor = MissionDistributor.getInstance();
         this.chosenMissionArrayList = missionDistributor.chooseMissions(1000);
+        missionChosenListViewId.getItems().removeAll();
         for (Mission mission : this.chosenMissionArrayList) {
             missionChosenListViewId.getItems().add(mission);
         }

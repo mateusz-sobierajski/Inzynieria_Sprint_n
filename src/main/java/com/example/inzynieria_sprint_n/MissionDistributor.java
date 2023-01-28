@@ -44,16 +44,6 @@ public class MissionDistributor {
          // zmienić w zaleznosci od budzetu
         List<Mission> selectedProducts = knapsack(products, capacity);
 
-        /*
-        System.out.println("----------------------");
-        for (Mission mission : selectedProducts) {
-            System.out.println("Name: " + mission.getMissionName());
-            System.out.println("Cost: " + mission.getBudget());
-            System.out.println("Priority: " + mission.getPriority());
-            System.out.println("----------------------");
-        }
-         */
-
 
         // Zapis wybranych produktów do nowego pliku CSV
         FileWriter fileWriter = new FileWriter("src/main/java/com/example/inzynieria_sprint_n/csv/chosen_mission_list.csv");
