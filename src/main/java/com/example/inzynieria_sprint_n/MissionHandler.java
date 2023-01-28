@@ -1,5 +1,6 @@
 package com.example.inzynieria_sprint_n;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -191,7 +192,6 @@ public class MissionHandler implements Initializable {
 
     /**
      * Funkcja addMission() pobiera dane z pól tekstowych aplikacji i na ich podstawie tworzy obiekt @see Mission
-     *
      */
 
     @FXML
@@ -284,10 +284,11 @@ public class MissionHandler implements Initializable {
 
     public void setChosenMissions(MouseEvent mouseEvent) throws IOException {
         MissionDistributor missionDistributor = MissionDistributor.getInstance();
+        missionChosenListViewId.getItems().clear();
         this.chosenMissionArrayList = missionDistributor.chooseMissions(1000);
-        missionChosenListViewId.getItems().removeAll();
         for (Mission mission : this.chosenMissionArrayList) {
             missionChosenListViewId.getItems().add(mission);
+            System.out.println(mission.toString());
         }
         missionChosenListViewId.setCellFactory(missionListView1 -> new ListCell<Mission>() {
             @Override
