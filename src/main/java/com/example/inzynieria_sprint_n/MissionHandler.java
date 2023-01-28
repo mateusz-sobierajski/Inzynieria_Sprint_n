@@ -138,6 +138,7 @@ public class MissionHandler implements Initializable {
                 super.updateItem(item, empty);
                 if (item == null || empty) {
                     setText(null);
+                    setStyle("-fx-background-color: white");
                 } else {
 
                     setText(item.getMissionName() + " | " + item.getBudget() + "$ | " + item.getPriority() + " | " + item.isBlacklisted());
@@ -200,30 +201,30 @@ public class MissionHandler implements Initializable {
         String budgetString = budgetTextField.getText();
         boolean isBlacklisted = blacklistedCheckBox.isSelected();
 
-        Mission mission = new Mission(missionName, budgetString, isBlacklisted);
-        missionListView.getItems().add(mission);
+        Mission missionToAdd = new Mission(missionName, budgetString, isBlacklisted);
+        this.missionArrayList.add(missionToAdd);
+        missionListView.getItems().add(missionToAdd);
         missionListView.refresh();
 
         missionNameTextField.clear();
         budgetTextField.clear();
         blacklistedCheckBox.setSelected(false);
 
-        System.out.println(mission);
 
         // Save the new mission to the csv file
 
-        String fileMissionList = "src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv";
-        FileWriter fileWriter = new FileWriter(fileMissionList, true);
-        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'));
-
-        csvPrinter.print(missionName);
-        csvPrinter.print(budgetString);
-        csvPrinter.print(mission.getPriority());
-        csvPrinter.print(isBlacklisted);
-        csvPrinter.println();
-
-        csvPrinter.flush();
-        fileWriter.close();
+//        String fileMissionList = "src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv";
+//        FileWriter fileWriter = new FileWriter(fileMissionList, true);
+//        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'));
+//
+//        csvPrinter.print(missionName);
+//        csvPrinter.print(budgetString);
+//        csvPrinter.print(mission.getPriority());
+//        csvPrinter.print(isBlacklisted);
+//        csvPrinter.println();
+//
+//        csvPrinter.flush();
+//        fileWriter.close();
 
         //checkBudgetExceeded();
     }
@@ -236,33 +237,34 @@ public class MissionHandler implements Initializable {
     public void deleteMission() {
 
         Mission selectedMission = this.missionListView.getSelectionModel().getSelectedItem();
-        String fileMissionList = "src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv";
-        try (Reader reader = new FileReader(fileMissionList);
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
-            // Create a new list to store the remaining missions
-            List<Mission> remainingMissions = new ArrayList<>();
-            for (CSVRecord csvRecord : csvParser) {
-                String missionName = csvRecord.get(0);
-                String budgetString = csvRecord.get(1);
-                String priority = csvRecord.get(2);
-                boolean isBlacklisted = Boolean.parseBoolean(csvRecord.get(3));
-                Mission mission = new Mission(missionName, budgetString, priority, isBlacklisted);
-                if (!mission.getMissionName().equals(selectedMission.getMissionName())) {
-                    remainingMissions.add(mission);
-                }
-            }
-
-            // Write the remaining missions to the csv file
-            try (FileWriter fileWriter = new FileWriter(fileMissionList);
-                 CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'))) {
-                for (Mission mission : remainingMissions) {
-                    csvPrinter.printRecord(mission.getMissionName(), mission.getBudget(), mission.getPriority(), mission.isBlacklisted());
-                }
-                csvPrinter.close(true);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        String fileMissionList = "src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv";
+//        try (Reader reader = new FileReader(fileMissionList);
+//             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
+//            // Create a new list to store the remaining missions
+//            List<Mission> remainingMissions = new ArrayList<>();
+//            for (CSVRecord csvRecord : csvParser) {
+//                String missionName = csvRecord.get(0);
+//                String budgetString = csvRecord.get(1);
+//                String priority = csvRecord.get(2);
+//                boolean isBlacklisted = Boolean.parseBoolean(csvRecord.get(3));
+//                Mission mission = new Mission(missionName, budgetString, priority, isBlacklisted);
+//                if (!mission.getMissionName().equals(selectedMission.getMissionName())) {
+//                    remainingMissions.add(mission);
+//                }
+//            }
+//
+//            // Write the remaining missions to the csv file
+//            try (FileWriter fileWriter = new FileWriter(fileMissionList);
+//                 CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'))) {
+//                for (Mission mission : remainingMissions) {
+//                    csvPrinter.printRecord(mission.getMissionName(), mission.getBudget(), mission.getPriority(), mission.isBlacklisted());
+//                }
+//                csvPrinter.close(true);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        this.missionArrayList.remove(selectedMission);
         missionListView.getItems().remove(selectedMission);
         missionListView.refresh();
     }

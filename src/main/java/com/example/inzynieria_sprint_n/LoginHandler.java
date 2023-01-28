@@ -1,4 +1,5 @@
 package com.example.inzynieria_sprint_n;
+
 import java.io.IOException;
 import java.io.FileReader;
 import java.util.Objects;
@@ -23,10 +24,12 @@ public class LoginHandler {
                 String csvUsername = csvRecord.get(0);
                 String csvPassword = csvRecord.get(1);
 
-                if (username.equals(csvUsername) && PasswordUtils.verifyPassword(password, csvPassword)) {
-                    Parent missionMgmt = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Mission_mgmt.fxml")));
-                    stage.setScene(new Scene(missionMgmt, 800, 600));
-                    break;
+                if (username.equals(csvUsername)) {
+                    if (PasswordUtils.verifyPassword(password, csvPassword)) {
+                        Parent missionMgmt = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Mission_mgmt.fxml")));
+                        stage.setScene(new Scene(missionMgmt, 800, 600));
+                        break;
+                    }
                 }
             }
         } catch (IOException e) {
