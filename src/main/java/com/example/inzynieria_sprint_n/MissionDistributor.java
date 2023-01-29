@@ -1,15 +1,8 @@
 package com.example.inzynieria_sprint_n;
 
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.csv.CSVRecord;
 
 public class MissionDistributor {
 
@@ -26,21 +19,12 @@ public class MissionDistributor {
     }
 
     CSVHandler csvHandler = new CSVHandler();
+    MissionHandler missionHandler = new MissionHandler();
 
     public List<Mission> chooseMissions(int capacity) throws IOException {
-        // Wczytanie pliku CSV
-        FileReader fileReader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
-        CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.withDelimiter(';').withIgnoreEmptyLines(true));
-        List<CSVRecord> csvRecords = csvParser.getRecords();
-        csvParser.close();
 
-        // Stworzenie listy obiektów na podstawie danych z pliku CSV
-        List<Mission> products = new ArrayList<>();
-        for (CSVRecord csvRecord : csvRecords) {
-            Mission mission = new Mission(csvRecord.get(0), csvRecord.get(1), csvRecord.get(2), Boolean.getBoolean(csvRecord.get(3)));
-            if (!mission.isBlacklisted())
-                products.add(mission);
-        }
+        List<Mission> products = missionHandler.missionArrayList;
+        products.removeIf(Mission::isBlacklisted);
 
         // Użycie algorytmu plecakowego do wyboru odpowiednich produktów
          // zmienić w zaleznosci od budzetu

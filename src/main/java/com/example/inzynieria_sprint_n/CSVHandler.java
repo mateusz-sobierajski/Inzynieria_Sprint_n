@@ -26,7 +26,8 @@ public class CSVHandler {
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
             {
                 for (CSVRecord record : csvParser.getRecords()) {
-                    loadingArray.add(new Mission(record.get(0), record.get(1), record.get(2), Boolean.parseBoolean(record.get(3))));
+                    Mission missionToAdd = new Mission(record.get(0), record.get(1), record.get(2), Boolean.parseBoolean(record.get(3)));
+                    loadingArray.add(missionToAdd);
                 }
                 csvParser.close();
                 reader.close();
@@ -45,6 +46,4 @@ public class CSVHandler {
         }
         csvPrinter.close();
     }
-
-
 }

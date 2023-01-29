@@ -62,13 +62,17 @@ public class HelloApplication extends Application {
 
 //      TODO synchronizacja metod so singletonu
 //      TODO wzorce strukturalne i czynnościowe
-//      TODO lista misji w singletonie albo jakos bede przekazywal ten obiekt z mission handler zeby w distributor bylo git
+
+//      TODO DONE >> lista misji w singletonie albo jakos bede przekazywal ten obiekt z mission handler zeby w distributor bylo git
 //      TODO drugi algorytm ktory zostal napisany jakos wykorzystac
 //      TODO EDYCJA MISJI XD
-    //  TODO  może mieć dwa pliki
+    //  TODO może mieć dwa pliki
     //  pierwszy ze stanem sprzed uruchomienia
     //  i nowy zapisany przy zamknięciu
     //  i jak poprawnie zapisze to wyjebac stary
+    //  TODO jak polaczyc loginhandler kotry czyta plik z csvhandlerem XD
+    //  TODO Czy zapisywac w ogole trzeba chosen missions? jak tak to dodac odczytywanie poprzednio wybranych
+
 
 
 }
