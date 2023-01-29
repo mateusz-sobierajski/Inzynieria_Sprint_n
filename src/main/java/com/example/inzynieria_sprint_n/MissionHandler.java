@@ -290,7 +290,6 @@ public class MissionHandler implements Initializable {
         this.chosenMissionArrayList = missionDistributor.chooseMissions(1000);
         for (Mission mission : this.chosenMissionArrayList) {
             missionChosenListViewId.getItems().add(mission);
-            System.out.println(mission.toString());
         }
         missionChosenListViewId.setCellFactory(missionListView1 -> new ListCell<Mission>() {
             @Override

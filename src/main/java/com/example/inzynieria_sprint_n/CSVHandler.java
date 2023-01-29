@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 public class CSVHandler {
     public void updateCSVOnClose(Stage stage) {
         stage.setOnCloseRequest(event -> {
-            System.out.println("test");
+            System.out.println();
         });
     }
 

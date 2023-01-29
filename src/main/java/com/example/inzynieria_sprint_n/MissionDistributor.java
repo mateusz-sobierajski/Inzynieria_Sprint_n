@@ -47,7 +47,7 @@ public class MissionDistributor {
 
         // Zapis wybranych produktów do nowego pliku CSV
         FileWriter fileWriter = new FileWriter("src/main/java/com/example/inzynieria_sprint_n/csv/chosen_mission_list.csv");
-        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT);
+        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'));
         for (Mission mission : selectedProducts) {
             csvPrinter.printRecord(mission.getMissionName(), mission.getBudget(), mission.getPriority(), mission.isBlacklisted());
         }
