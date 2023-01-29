@@ -3,12 +3,15 @@ package com.example.inzynieria_sprint_n;
 import javafx.stage.Stage;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CSVHandler {
     public void updateCSVOnClose(Stage stage) {
@@ -17,9 +20,9 @@ public class CSVHandler {
         });
     }
 
-    public ArrayList<Mission> loadMissionsFromFile(){
+    public ArrayList<Mission> loadMissionsFromFile(String filePath){
         ArrayList<Mission> loadingArray = new ArrayList<>();
-        try (Reader reader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
+        try (Reader reader = new FileReader(filePath);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
             {
                 for (CSVRecord record : csvParser.getRecords()) {
@@ -33,5 +36,15 @@ public class CSVHandler {
         }
         return loadingArray;
     }
+
+    public void writeMissionToCSV(List<Mission> missionList, String CSVFilePath) throws IOException {
+        FileWriter fileWriter = new FileWriter(CSVFilePath);
+        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'));
+        for (Mission mission : missionList) {
+            csvPrinter.printRecord(mission.getMissionName(), mission.getBudget(), mission.getPriority(), mission.isBlacklisted());
+        }
+        csvPrinter.close();
+    }
+
 
 }

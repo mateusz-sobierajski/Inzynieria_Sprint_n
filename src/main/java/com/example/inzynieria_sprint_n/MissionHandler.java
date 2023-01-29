@@ -41,9 +41,8 @@ public class MissionHandler implements Initializable {
     private TextField budgetTextField;
     @FXML
     private CheckBox blacklistedCheckBox;
-    private boolean isEditMode = false;
-    private Mission selectedMission;
-    private ObservableList<Mission> allMissions;
+//    private boolean isEditMode = false;
+//    private Mission selectedMission;
 
     /**
      * metoda handleEditBtn obsługuje przycisk "Edit" znajdujący się na ekranie dodania misji.
@@ -164,7 +163,8 @@ public class MissionHandler implements Initializable {
      */
     public MissionHandler() {
         CSVHandler csvHandler = new CSVHandler();
-        missionArrayList = csvHandler.loadMissionsFromFile();
+        String filePath = "src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv";
+        missionArrayList = csvHandler.loadMissionsFromFile(filePath);
     }
 
     /**
@@ -248,7 +248,7 @@ public class MissionHandler implements Initializable {
     private void checkBudgetExceeded() {
         int budget = Integer.parseInt(budgetTextField.getText());
         int totalCost = 0;
-        for (Mission mission : allMissions) {
+        for (Mission mission : chosenMissionArrayList) {
             totalCost += mission.getBudget();
         }
         if (totalCost > budget) {

@@ -25,6 +25,8 @@ public class MissionDistributor {
         return missiondistributor;
     }
 
+    CSVHandler csvHandler = new CSVHandler();
+
     public List<Mission> chooseMissions(int capacity) throws IOException {
         // Wczytanie pliku CSV
         FileReader fileReader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
@@ -44,14 +46,9 @@ public class MissionDistributor {
          // zmienić w zaleznosci od budzetu
         List<Mission> selectedProducts = knapsack(products, capacity);
 
-
         // Zapis wybranych produktów do nowego pliku CSV
-        FileWriter fileWriter = new FileWriter("src/main/java/com/example/inzynieria_sprint_n/csv/chosen_mission_list.csv");
-        CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withDelimiter(';'));
-        for (Mission mission : selectedProducts) {
-            csvPrinter.printRecord(mission.getMissionName(), mission.getBudget(), mission.getPriority(), mission.isBlacklisted());
-        }
-        csvPrinter.close();
+        String chosenMissionsFilePath = "src/main/java/com/example/inzynieria_sprint_n/csv/chosen_mission_list.csv";
+        csvHandler.writeMissionToCSV(selectedProducts, chosenMissionsFilePath);
 
         return selectedProducts;
     }

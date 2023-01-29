@@ -60,9 +60,16 @@ public class HelloApplication extends Application {
         launch();
     }
 
-//   TODO synchronizacja metod so singletonu
-//   TODO wzorce strukturalne i czynnościowe
-//   TODO usuwanie misji na listview po wykonaniu algorytmu
+//      TODO synchronizacja metod so singletonu
+//      TODO wzorce strukturalne i czynnościowe
+//      TODO lista misji w singletonie albo jakos bede przekazywal ten obiekt z mission handler zeby w distributor bylo git
+//      TODO drugi algorytm ktory zostal napisany jakos wykorzystac
+//      TODO EDYCJA MISJI XD
+    //  TODO  może mieć dwa pliki
+    //  pierwszy ze stanem sprzed uruchomienia
+    //  i nowy zapisany przy zamknięciu
+    //  i jak poprawnie zapisze to wyjebac stary
+
 
 }
 
