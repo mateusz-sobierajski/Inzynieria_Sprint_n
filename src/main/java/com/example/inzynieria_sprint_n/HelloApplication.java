@@ -45,6 +45,8 @@ public class HelloApplication extends Application {
             } else {
                 LoginHandler loginHandler = new LoginHandler();
                 loginHandler.handleLogin(username, password, stage);
+                CSVHandler csvHandler = new CSVHandler();
+                csvHandler.updateCSVOnClose(stage);
             }
         });
     }
