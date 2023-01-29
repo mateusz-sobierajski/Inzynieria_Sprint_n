@@ -1,6 +1,5 @@
 package com.example.inzynieria_sprint_n;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,18 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.csv.CSVRecord;
 
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -173,22 +163,8 @@ public class MissionHandler implements Initializable {
      * Funkcja MissionHandler otwiera plik csv z misjami i tworzy na ich podstawie listę obiektów @see Mission
      */
     public MissionHandler() {
-
-        chosenMissionArrayList = new ArrayList<>();
-        missionArrayList = new ArrayList<>();
-        try (Reader reader = new FileReader("src/main/java/com/example/inzynieria_sprint_n/csv/proposed_mission_list.csv");
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
-            {
-                for (CSVRecord record : csvParser.getRecords()) {
-                    missionArrayList.add(new Mission(record.get(0), record.get(1), record.get(2), Boolean.parseBoolean(record.get(3))));
-                }
-                csvParser.close();
-                reader.close();
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
+        CSVHandler csvHandler = new CSVHandler();
+        missionArrayList = csvHandler.loadMissionsFromFile();
     }
 
     /**
