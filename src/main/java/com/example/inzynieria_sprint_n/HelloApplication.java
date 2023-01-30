@@ -43,10 +43,17 @@ public class HelloApplication extends Application {
             if (username.isEmpty() || password.isEmpty()) {
                 System.out.println("Please enter a username and password.");
             } else {
-                LoginHandler loginHandler = new LoginHandler();
-                loginHandler.handleLogin(username, password, stage);
                 CSVHandler csvHandler = new CSVHandler();
                 csvHandler.updateCSVOnClose(stage);
+                LoginHandler loginHandler = new LoginHandler(csvHandler);
+                if (loginHandler.handleLogin(username, password)) {
+                    try {
+                        Parent missionMgmt = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Mission_mgmt.fxml")));
+                        stage.setScene(new Scene(missionMgmt, 800, 600));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
         });
     }
@@ -72,7 +79,6 @@ public class HelloApplication extends Application {
     //  i jak poprawnie zapisze to wyjebac stary
     //  TODO jak polaczyc loginhandler kotry czyta plik z csvhandlerem XD
     //  TODO Czy zapisywac w ogole trzeba chosen missions? jak tak to dodac odczytywanie poprzednio wybranych
-
 
 
 }

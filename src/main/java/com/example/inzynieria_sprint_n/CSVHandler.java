@@ -20,7 +20,7 @@ public class CSVHandler {
         });
     }
 
-    public ArrayList<Mission> loadMissionsFromFile(String filePath){
+    public ArrayList<Mission> loadMissionsFromFile(String filePath) {
         ArrayList<Mission> loadingArray = new ArrayList<>();
         try (Reader reader = new FileReader(filePath);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
@@ -46,4 +46,19 @@ public class CSVHandler {
         }
         csvPrinter.close();
     }
+
+    public List<Worker> loadWorkersFromFile(String filePath) {
+        List<Worker> loadingArray = new ArrayList<>();
+        try (Reader reader = new FileReader(filePath);
+             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withIgnoreEmptyLines(true).withDelimiter(';'))) {
+            for (CSVRecord record : csvParser.getRecords()) {
+                Worker workerToAdd = new Worker(record.get(0), record.get(1));
+                loadingArray.add(workerToAdd);
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return loadingArray;
+    }
+
 }
