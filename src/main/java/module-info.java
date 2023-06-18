@@ -12,6 +12,7 @@ module com.example.inzynieria_sprint_n {
     requires com.almasb.fxgl.all;
     requires junit;
     requires commons.csv;
+    requires java.sql;
 
     opens com.example.inzynieria_sprint_n to javafx.fxml;
     exports com.example.inzynieria_sprint_n;

@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Objects;
 
 /**
@@ -64,10 +66,12 @@ public class HelloApplication extends Application {
      * @param args
      */
     public static void main(String[] args) {
-        launch();
+//        launch();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        databaseConnection.getConnection();
     }
 
-//      TODO synchronizacja metod so singletonu
+    //      TODO synchronizacja metod so singletonu
 //      TODO wzorce strukturalne i czynnościowe
 
 //      TODO drugi algorytm ktory zostal napisany jakos wykorzystac
@@ -81,7 +85,6 @@ public class HelloApplication extends Application {
 
     //  TODO DONE >> jak polaczyc loginhandler kotry czyta plik z csvhandlerem XD
 //      TODO DONE >> lista misji w singletonie albo jakos bede przekazywal ten obiekt z mission handler zeby w distributor bylo git
-
 
 
 }
