@@ -66,9 +66,9 @@ public class HelloApplication extends Application {
      * @param args
      */
     public static void main(String[] args) {
-//        launch();
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        databaseConnection.getConnection();
+        launch();
+//        DatabaseConnection databaseConnection = new DatabaseConnection();
+//        databaseConnection.getConnection();
     }
 
     //      TODO synchronizacja metod so singletonu
