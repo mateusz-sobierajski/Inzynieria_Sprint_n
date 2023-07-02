@@ -3,6 +3,9 @@ package com.example.inzynieria_sprint_n;
 import java.sql.*;
 import java.util.Properties;
 
+/**
+ * DatabaseConnection odpowiada za nawiązanie połączenia z bazą danych
+ */
 public class DatabaseConnection {
 
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
